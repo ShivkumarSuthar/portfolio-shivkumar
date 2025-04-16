@@ -1,0 +1,36 @@
+.projects__wrapper{
+    padding: 20px 80px;
+}
+.project__inner__wrapper{
+    padding: 50px 0;
+}
+.project__tech__list{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+.project__tech{
+    border: 1px solid #333;
+    padding: 10px 20px;
+    border-radius: 100vmax;
+}
+
+@media (max-width:567px) {
+    .projects__wrapper{padding: 20px;}
+}
+
+@media (max-width:768px) {
+    .projects__wrapper{padding: 20px 30px;}
+}
+@media (min-width:800px) and (max-width:1024px) {
+    .projects__wrapper{padding: 20px 50px;}
+}
+@media (max-width:800px){
+    .projects__wrapper{padding: 20px 30px;}
+   
+}
+@media (max-width:576px){
+    .projects__wrapper{padding: 20px 15px;}
+   
+}

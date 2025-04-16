@@ -1,0 +1,81 @@
+.about__page__wrapper{
+    padding: 80px 80px;
+}
+.page__title__text{
+    font-size: 18px;
+}
+.page__heading__text{
+    font-size: 18px;
+}
+.skill__div{
+    border: 1px solid #ccc;
+    padding: 15px 20px;
+    border-radius: 30px;
+    margin-bottom: 30px;
+}
+.skills__frontend{
+    background-color: #fff;
+    color: #000;    
+}
+.skills__title__text{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.me__profile__div{
+    display: flex;
+    justify-content: end;
+}
+.me__profile__div img{
+    border: 1px solid #000;
+    border-radius: 20px;
+}
+.about__section__bottom{
+    margin-top: 30px;
+}
+.git__btn__div{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+
+}
+.git__btn{
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 25px;
+}
+.arrow__btn{
+    color: #000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -15px;    
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    font-size: 15px;
+}
+.desktop__d__none{display: none;}
+
+@media (min-width:800px) and (max-width:1326px) {
+    .about__page__wrapper{padding: 20px 50px;}
+    .me__profile__div img{width: 500px; height: 100%;}
+}
+@media (min-width:576px) and (max-width:800px) {
+    .about__page__wrapper{padding: 20px 30px;}
+    .page__heading__text{font-size: 17px;}
+    .skill__description{font-size: 20px;}
+    .mobile__d__none{display: none;}
+    .desktop__d__none{display: block;}
+}
+@media (max-width:567px){
+    .about__page__wrapper{padding:10px 15px;}
+    .skill__description {font-size: 15px;}
+}

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('./Navbar.css');
+@import url('./hero.css');
+@import url('./about.css');
+@import url('./work.css');
+@import url('./project.css');
+@import url('./carousel.css');
+body{
+  /* font-family: "Alegreya", serif; */
+  /* font-family: "Roboto", sans-serif; */
+  /* font-family: "Open Sans"; */
+  font-family: monospace;
+  /* font-family: "Raleway", sans-serif; */
+  /* font-family: "Montserrat", sans-serif; */
+  font-size: 15px;
+  background: #121212;
+  color: #fff;
+  font-weight: light;
+}
+.layout__wrapper{
+  min-height: 100vh;
+}
+
+/* Scrollbar with Taller Thumb */
+
+/* For Webkit browsers (Chrome, Safari, newer versions of Opera) */
+::-webkit-scrollbar {
+  width: 4px; /* Keeps the thin width shown in your image */
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000; /* Pure black background */
+  border: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444444; /* Light gray thumb color */
+  border-radius: 0;
+  border: none;
+  min-height: 150px; /* Makes the thumb much taller */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666666; /* Slightly lighter on hover */
+}
+
+::-webkit-scrollbar-corner {
+  background: #000000;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #444444 #121212;
+}
+
+/* For Internet Explorer and Edge */
+body {
+  -ms-overflow-style: scrollbar;
+  overflow-x: hidden;
+}

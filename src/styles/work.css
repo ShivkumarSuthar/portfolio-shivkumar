@@ -1,0 +1,45 @@
+.work__page__wrapper {
+    padding: 0;
+}
+
+.job__box {
+    padding: 20px 80px;
+    border-top: 1px solid #cccccc65;
+    border-bottom: 1px solid #cccccc65;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+/* Optional: Remove top border from second box onward to avoid double lines */
+.job__box+.job__box {
+    border-top: none;
+}
+
+.job__box p {
+    margin-bottom: 5px;
+}
+.job__box:hover{
+    background-color: #f1f1f182;
+    color: #000;
+}
+
+@media (max-width:576px) {
+    .job__box{padding: 20px;}
+}
+
+@media (min-width:800px) and (max-width:1024px) {
+    .job__box{padding: 20px 50px;}
+}
+@media (max-width:800px){
+    .job__box{padding: 20px 30px;}
+   
+}
+@media (max-width:768px) {
+    .job__box{padding: 10px 30px;}
+}
+@media (max-width:576px) {
+    .job__box{padding: 10px 15px;}
+}

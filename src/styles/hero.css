@@ -1,0 +1,150 @@
+.hero__section__wrapper{
+    padding: 20px 80px;
+}
+.me__profile__title__text2, .me__profile__title__text1{
+    font-size: 100px;
+    font-weight: bolder;
+    letter-spacing: 12px;
+    line-height:110px;
+}
+.hero__section__goal__text{
+    padding-right: 0px;
+    font-size: 25px;
+}
+.btn{
+    border-radius: 100vmax;
+    padding: 10px 20px;
+    border: 1px solid #fff;
+}
+.btn__project{
+    background-color: #fff;
+    color: #000;
+    font-size: 25px;
+    width: 200px;
+    height: 60px;
+    margin-right: 20px;
+}
+.btn__project__btn{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    color: #000;
+}
+.hero__section__top{
+    padding-bottom: 30px;
+}
+.social__btn{
+    display: flex;
+    gap: 20px;
+}
+.btn__social{
+    color: #fff;
+    background-color: #3d3d3d;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.group{
+    display: flex;
+    gap: 20px;
+    padding-top: 30px;
+}
+.group-1{
+    margin: 0 50px;
+}
+.btn__project{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.project__btn{
+    display: flex;
+    justify-content:end;
+    align-items:center
+}
+@media (max-width: 576px) {
+    .hero__section__wrapper {padding: 20px;}    
+    .layout__wrapper {padding: 0px;}
+    .me__profile__title__text1 {font-size: 55px; line-height: 100%; letter-spacing: 0; ;}
+    .me__profile__title__text2 {font-size: 55px;line-height: 100%; letter-spacing: 0;text-align: end}
+}
+
+@media (max-width: 1024px) {
+    .me__profile__title__text2, .me__profile__title__text1{font-size: 88px; letter-spacing: 2px;}
+    .group-1{margin: 0 30px;}
+    .hero__section__goal__text{font-size: 22px;}
+}
+
+@media (max-width: 800px) {
+    .hero__section__wrapper {padding: 20px 30px}
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 65px}
+    .hero__section__goal__text{font-size: 20px;}
+    .btn__project{font-size: 20px;width: 180px;}
+    .btn__social{font-size: 13px;}
+    .social__btn {gap: 10px;}
+    .group-1{margin: 0 20px;}
+    .group{gap: 10px;}
+    .social__items{display: flex; justify-content: center; width: 100%;}
+}
+@media (min-width:800px) and (max-width:1326px) {
+    .hero__section__wrapper{padding: 20px 50px;}
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 95px}
+}
+@media (max-width:1280px) {
+    .hero__section__goal__text{font-size: 23px;}
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 90px;}
+}
+@media (max-width:1231px) {
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 85px;}
+}
+@media (max-width:1185px) {
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 80px;}
+}
+@media (max-width:1140px) {
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 75px;}
+}
+@media (max-width:1090px) {
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 70px; letter-spacing: 5px;}
+}
+@media (max-width:870px) {
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 65px;}
+}
+@media (max-width:824px) {
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 60px;}
+}
+
+@media (max-width: 576px) {
+    .hero__section__wrapper {padding: 10px 15px}
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 50px}
+    .hero__section__goal__text{font-size: 20px;}
+    .btn__project{font-size: 20px;width: 180px;}
+    .btn__social{font-size: 13px;}
+    .social__btn {gap: 10px;}
+    .group-1{margin: 0 0px;}
+    .group{gap: 10px;}
+    .social__items{display: flex; justify-content: start; width: 100%;}
+    .project__btn{
+        justify-content: start;
+        margin-top: 20px;
+    }
+}
+@media (max-width: 320px) {
+    .hero__section__wrapper {padding: 10px 15px}
+    .me__profile__title__text2, .me__profile__title__text1 {font-size: 40px}
+    .hero__section__goal__text{font-size: 15px;}
+    .btn__project{font-size: 12px;width: 120px; height: 40px;}
+    .btn__project__btn{width: 40px; height: 40px;}
+    .btn{padding: 10px;}
+    .btn__social{font-size: 13px;}
+    .social__btn {gap: 10px;}
+    .group-1{margin: 0 0px;}
+    .group{gap: 10px;}
+    .social__items{display: flex; justify-content: start; width: 100%;}
+    .brand__text__1, .brand__text__2 {font-size: 45px;}
+    .project__btn{
+        justify-content: start;
+        margin-top: 20px;
+    }
+}
