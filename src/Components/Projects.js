@@ -17,11 +17,11 @@ function Projects() {
                         </div>
                         <p className='project__description__text'>{project.description}</p>
                         <div className='git__btn__div'>
-                            <button class="btn git__btn">
-                                <i class="fa-brands fa-github-alt"></i>
+                            <button className="btn git__btn">
+                                <i className="fa-brands fa-github-alt"></i>
                             </button>
-                            <button class="btn arrow__btn">
-                                <i class="fa-solid fa-arrow-right"></i>
+                            <button className="btn arrow__btn">
+                                <i className="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
