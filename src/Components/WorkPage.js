@@ -6,9 +6,9 @@ function WorkPage() {
     return (
         <div fluid className='work__page__wrapper'>
             <Row>
-                <Col xs={11}>
-                    <h1 className="text-end mb-3">Work</h1>
-                </Col>
+                {/* <Col xs={12}> */}
+                    <h1 className="text-end mb-3 pe-12">Work Profiles</h1>
+                {/* </Col> */}
             </Row>
 
             {data.experience.jobs.length > 0 &&
@@ -33,12 +33,12 @@ function WorkPage() {
                 ))
             }
             <Row className='job__exerience text-end'>
-                <Col lg={11}>
+                {/* <Col lg={11}> */}
                     <div className='job__exerience__div my-3'>
                         <h1>Work Experience</h1>
                         <p className='experience__no'>{data.experience.total}</p>
                     </div>
-                </Col>
+                {/* </Col> */}
             </Row>
         </div>
     )

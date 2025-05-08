@@ -7,16 +7,21 @@ function AboutSection() {
     return (
         <div className='about__page__wrapper'>
             <Row>
-                <Col md={7}>
+                <Col md={7} lg={12}>
                     <Row>
-                        <Col lg={4}>
+                        {/* <Col lg={3}> */}
                             <p className='page__title__text'>../About me ...</p>
-                        </Col>
-                        <Col lg={7}>
-                            <p className='page__heading__text'>
-                                My name is Shivkumar Suthar. I'm a software engineer and aspiring artist. I have been working remotely for the past five years.
-                            </p>
-                        </Col>
+                        {/* </Col> */}
+                        {/* <Col lg={9}> */}
+                            <div className='page__heading__text'>
+                                <p>
+                                    I'm Shivkumar Suthar, a MERN Stack Developer at Dev Technosys, specializing in dynamic, scalable, and high-performance web app with expertise in JavaScript, React, and Node.js. At Dev Technosys, a CMMI Level 3 certified IT services company, I transform client requirements into innovative solutions that meet the needs of businesses globally.
+                                </p>
+                            </div>
+
+
+
+                        {/* </Col> */}
                     </Row>
                 </Col>
                 <Col lg={5} md={5} sm={12} className='desktop__d__none'>
@@ -78,10 +83,11 @@ function AboutSection() {
                         </Col>
                     </Row>
                 </Col>
-                <Col lg={5} sm={12} className='order-1 order-md-2 mobile__d__none'>
-                    <div className='me__profile__div'>
-                        <Image src={data.profile__image} alt={'shivkumar suthar'} width='100' height='100' />
-                    </div>
+                <Col lg={5} sm={12} className='order-1 order-md-2 mobile__d__none me__profile__div'>
+                    {/* <div className='me__profile__div' style={{background:"#333"}}> */}
+                        {/* <Image src={data.profile__image} alt={'shivkumar suthar'} width='100' height='100' /> */}
+                        {/* <div className='w-100' style={{background:"#333"}}></div> */}
+                    {/* </div> */}
                 </Col>
             </Row>
         </div>

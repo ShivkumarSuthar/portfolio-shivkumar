@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { FaArrowLeftLong, FaArrowRightLong  } from "react-icons/fa6";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -16,19 +17,17 @@ const ProjectCarousel = () => {
   
   return (
     <div className="carousel-wrapper relative">
-      <div className="custom-navigation absolute w-full top-1/2 -translate-y-1/2 flex justify-between px-4 z-10 pointer-events-none">
-        <button
-          className="custom-prev-arrow bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-md pointer-events-auto"
+      {/* Fade Effects */}
+      <div className="fade-overlay fade-left"></div>
+      <div className="fade-overlay fade-right"></div>
+      
+      <div className="custom-navigation">
+        <span
+          className="custom-arrow custom-prev-arrow"
           onClick={() => swiperRef.current?.slidePrev()}
         >
-          <i className="fa-solid fa-arrow-left-long"></i>
-        </button>
-        <button
-          className="custom-next-arrow bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-md pointer-events-auto"
-          onClick={() => swiperRef.current?.slideNext()}
-        >
-          <i className="fa-solid fa-arrow-right-long"></i>
-        </button>
+          <FaArrowLeftLong />
+        </span>
       </div>
 
       <Swiper
@@ -68,6 +67,14 @@ const ProjectCarousel = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className="custom-navigation">
+        <span
+          className="custom-arrow custom-next-arrow"
+          onClick={() => swiperRef.current?.slideNext()}
+        >
+          <FaArrowRightLong />
+        </span>
+      </div>
     </div>
   );
 };
