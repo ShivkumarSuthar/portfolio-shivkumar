@@ -1,5 +1,37 @@
 export const data = {
   'profile__image': '/images/me.jpg',
+  socialLinks: [
+    {
+      label: 'github',
+      icon: 'fab fa-github',
+      url: 'http://github.com/ShivkumarSuthar',
+      group: 'group-2'
+    },
+    {
+      label: 'linkedin',
+      icon: 'fab fa-linkedin-in',
+      url: 'https://www.linkedin.com/in/shivkumar-suthar',
+      group: 'group-2'
+    },
+    {
+      label: 'LeetCode',
+      icon: 'fas fa-code',
+      url: 'https://leetcode.com/yourprofile',
+      group: 'group-1'
+    },
+    {
+      label: 'facebook',
+      icon: 'fab fa-facebook-f',
+      url: 'https://www.facebook.com/shivkumar.suthar.165',
+      group: 'group-2'
+    },
+    {
+      label: 'instagram',
+      icon: 'fab fa-instagram',
+      url: 'https://instagram.com/yourprofile',
+      group: 'group-2'
+    }
+  ],
   "skills": {
     "Front-end": [
       "TypeScript",
@@ -96,6 +128,15 @@ export const data = {
       tech: ["Next.js", "MongoDB", "Stripe", "Bootstrap"],
       liveLink: "https://your-store-demo.com",
       githubLink: "https://github.com/yourusername/ecommerce-store",
+      'image': '/images/img.jpg',
+
+    },
+    {
+      title: "Task Manager App",
+      description: "A task management app to organize daily tasks with user authentication.",
+      tech: ["Vue", "Firebase", "TailwindCSS"],
+      liveLink: "https://your-taskapp-demo.com",
+      githubLink: "https://github.com/yourusername/task-manager",
       'image': '/images/img.jpg',
 
     },
