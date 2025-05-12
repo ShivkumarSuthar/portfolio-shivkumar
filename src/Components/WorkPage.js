@@ -22,6 +22,7 @@ function WorkPage() {
                                 <h5 className="text-company">{job.company}</h5>
                                 <div className="job__description">
                                     <p className="job__profil mb-0">{job.role}</p>
+                                    <span className="tech-separator"> | </span>
                                     <p className="job__tech mb-0">{job.tech}</p>
                                 </div>
                             </Col>

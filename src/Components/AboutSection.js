@@ -60,11 +60,36 @@ function AboutSection() {
                                 </button>
                             </div>
                         </Col>
-                        <Col lg={12}>
+                        <Col lg={3}>
                             <div className='skills__others skill__div'>
                                 <p className='skills__title__text'>{Object.keys(data.skills)[2]}</p>
                                 <div className='skills__list'>
-                                    {data.skills['Back-end'].join(' / ')}
+                                    {data.skills['Programming Languages'].join(' / ')}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col lg={4}>
+                            <div className='skills__others skill__div'>
+                                <p className='skills__title__text'>{Object.keys(data.skills)[3]}</p>
+                                <div className='skills__list'>
+                                    {data.skills['Design'].join(' / ')}
+                                </div>
+                            </div>
+                        </Col>
+                        <Col lg={4}>
+                            <div className='skills__others skill__div'>
+                                <p className='skills__title__text'>{Object.keys(data.skills)[4]}</p>
+                                <div className='skills__list'>
+                                    {data.skills['Tools'].join(' / ')}
+                                </div>
+                            </div>
+                        </Col>
+                        
+                        <Col lg={4}>
+                            <div className='skills__others skill__div'>
+                                <p className='skills__title__text'>{Object.keys(data.skills)[5]}</p>
+                                <div className='skills__list'>
+                                    {data.skills['Databases'].join(' / ')}
                                 </div>
                             </div>
                         </Col>
@@ -73,11 +98,11 @@ function AboutSection() {
                                 Duis do elit mollit consequat aliqua culpa laborum commodo consectetur voluptate nulla ad exercitation Lorem.
                             </div>
                         </Col>
-                        <Col lg={5} sm={6} md={6} xs={6}>
+                        <Col lg={12} sm={12} md={12} xs={12}>
                             <div className='skills__others skill__div'>
-                                <p className='skills__title__text'>{Object.keys(data.skills)[3]}</p>
+                                <p className='skills__title__text'>{Object.keys(data.skills)[6]}</p>
                                 <div className='skills__list'>
-                                    {data.skills['DevOps'].join(' / ')}
+                                    {data.skills['Deployment'].join(' / ')}
                                 </div>
                             </div>
                         </Col>

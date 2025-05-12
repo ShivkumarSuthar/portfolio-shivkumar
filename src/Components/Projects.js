@@ -15,11 +15,14 @@ function Projects() {
           <Col lg={6} md={6} sm={12} key={index} className='project__item__wrapper'>
             <div className='project__item'>
               <div className='project__image__container'>
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className='project__image' 
-                />
+                <iframe
+                  src={project.liveLink}
+                  title={project.title}
+                  className='project__iframe'
+                  frameBorder="0"
+                  loading="lazy"
+                ></iframe>
+
                 
                 <div className='project__overlay'>
                   <h3 className='project__title__text'>{project.title}</h3>

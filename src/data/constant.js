@@ -34,122 +34,106 @@ export const data = {
   ],
   "skills": {
     "Front-end": [
+      "HTML",
+      "JavaScript",
       "TypeScript",
       "React",
+      "Next.js",
       "Vue",
-      "Vuex",
-      "Redux Toolkit",
-      "NextJs",
-      "Nuxt",
-      "Jest",
-      "GraphQL",
-      "React Native",
-      "Puppeteer",
-      "Enzyme"
+      "GSAP",
+      "Three.js",
+      "Optimized Accordion (on-demand rendering)"
     ],
     "Styles": [
-      "SCSS",
+      "CSS",
       "SASS",
-      "PostCSS",
-      "Ant.d",
-      "MUI",
+      "Tailwind",
+      "Bootstrap",
       "Material UI"
     ],
-    "Back-end": [
-      "Golang",
-      "Gin",
-      "GORM",
-      "PostgreSQL",
-      "MySQL",
-      "MongoDB",
-      "gRPC",
-      "Redis",
-      "Kafka",
-      "Node",
-      "Nest",
-      "TypeORM",
-      "Microservices"
+    "Programming Languages": [
+      "Java",
+      "PHP",
+      "C",
+      "Node.js"
     ],
-    "DevOps": [
-      "Nginx",
-      "Brotli",
-      "Docker",
-      "(CI/CD)",
-      "k8s",
-      "Bash"
-    ]
-  },
-  experience: {
-    total: "4 years 9 months",
-    jobs: [
-      {
-        duration: "2022 -",
-        period: "1 year 5 months",
-        company: "ITHUB",
-        role: "Frontend developer",
-        tech: "React & Vue"
-      },
-      {
-        duration: "2021 - 2022",
-        period: "8 months",
-        company: "VK Development Lab",
-        role: "Frontend developer",
-        tech: "React"
-      },
-      {
-        duration: "2020 - 2021",
-        period: "9 months",
-        company: "SN Inc.",
-        role: "Fullstack developer",
-        tech: "JavaScript & Python"
-      },
-      {
-        duration: "2018 - 2020",
-        period: "1 year 11 months",
-        company: "Business Up",
-        role: "Fullstack developer",
-        tech: "JavaScript & Python"
-      }
-    ]
-  },
-  projects: [
-    {
-      title: "Portfolio Website",
-      description: "A personal portfolio website showcasing skills, projects, and experience.",
-      tech: ["React", "SCSS", "EmailJS"],
-      liveLink: "https://your-portfolio-demo.com",
-      githubLink: "https://github.com/yourusername/portfolio",
-      'image': '/images/img.jpg',
-
-    },
-    {
-      title: "E-Commerce Store",
-      description: "A full-featured e-commerce application with cart, checkout, and admin panel.",
-      tech: ["Next.js", "MongoDB", "Stripe", "Bootstrap"],
-      liveLink: "https://your-store-demo.com",
-      githubLink: "https://github.com/yourusername/ecommerce-store",
-      'image': '/images/img.jpg',
-
-    },
-    {
-      title: "Task Manager App",
-      description: "A task management app to organize daily tasks with user authentication.",
-      tech: ["Vue", "Firebase", "TailwindCSS"],
-      liveLink: "https://your-taskapp-demo.com",
-      githubLink: "https://github.com/yourusername/task-manager",
-      'image': '/images/img.jpg',
-
-    },
-    {
-      title: "Task Manager App",
-      description: "A task management app to organize daily tasks with user authentication.",
-      tech: ["Vue", "Firebase", "TailwindCSS"],
-      liveLink: "https://your-taskapp-demo.com",
-      githubLink: "https://github.com/yourusername/task-manager",
-      'image': '/images/img.jpg',
-
-    }
+    "Design": [
+      "Figma",
+      "Adobe Illustrator",
+      "Adobe XD"
+    ],
+    "Tools": [
+      "Postman",
+      "Git",
+      "GitHub",
+      "Fork (Git GUI Client)"
+    ],
+    "Databases": [
+    "MySQL",
+    "MongoDB"
   ],
+    "Deployment": [
+      "Vercel",
+      "Netlify",
+      "Custom Hosting (cPanel / FTP)"
+    ]
+  },
+"experience": {
+  "total": "2 years 7 months",
+  "jobs": [
+    {
+      "duration": "2024 - Present",
+      "period": "Since May 2024",
+      "company": "Dev Technosys Pvt Ltd.",
+      "role": "MERN Stack Developer",
+      "tech": "MongoDB, Express, React, Node.js"
+    },
+    {
+      "duration": "2024",
+      "period": "Jan 2024 - May 2024",
+      "company": "Rams Creative Technologies Pvt. Ltd.",
+      "role": "Frontend Developer",
+      "tech": "Vue, JavaScript"
+    },
+    {
+      "duration": "2022 - 2024",
+      "period": "1 year 3 months",
+      "company": "Viseven India Pvt. Ltd.",
+      "role": "Content Developer",
+      "tech": "eWizard, Vue, Git"
+    }
+  ]
+},
+projects: [
+  {
+    title: "CarDekho Clone",
+    description: "A car listing and search platform with filtering, sorting, and modern UI.",
+    tech: ["Next.js", "MongoDB", "Bootstrap"],
+    liveLink: "https://car-dekhlo.vercel.app/",
+    githubLink: "https://github.com/yourusername/car-dekhlo", // Update if available
+  },
+  {
+    title: "GymHouse",
+    description: "A modern gym website with responsive design and feature-rich pages.",
+    tech: ["React", "Bootstrap"],
+    liveLink: "https://house-gym.vercel.app/",
+    githubLink: "https://github.com/yourusername/house-gym", // Update if available
+  },{
+    title: "DAP Solutions Website",
+    description: "A professional IT agency website built to showcase services, team, and projects. Responsive, fast, and visually modern.",
+    tech: ["Next.js", "Bootstrap", "React Icons"],
+    liveLink: "http://dapsolutions.in/",
+    githubLink: "" // Leave empty or update if it's hosted on GitHub
+  },
+  {
+    title: "DAP Solutions Website",
+    description: "A professional IT agency website built to showcase services, team, and projects. Responsive, fast, and visually modern.",
+    tech: ["Next.js", "Bootstrap", "React Icons"],
+    liveLink: "https://shivsuthar.netlify.app/",
+    githubLink: "" // Leave empty or update if it's hosted on GitHub
+  }
+  
+],
   PROJECT_CAROUSEL: [
     {
       id: 1,
