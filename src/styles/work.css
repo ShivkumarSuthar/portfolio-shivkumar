@@ -1,45 +1,105 @@
 .work__page__wrapper {
     padding: 0;
+    padding-top: 5px;
 }
+
+.text-title-end {
+    text-align: end;
+    font-size: 25px;
+    font-weight: bold;
+    /* padding-bottom: 30px; */
+    padding:30px 80px 10px;
+}
+
+.job__experience__div {
+    padding: 20px 80px 0;
+}
+.job__experience__div h2{font-size: 25px;}
 
 .job__box {
     padding: 20px 80px;
     border-top: 1px solid #cccccc65;
     border-bottom: 1px solid #cccccc65;
     margin-bottom: 0;
-    display: flex;
     align-items: center;
     cursor: pointer;
-
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Optional: Remove top border from second box onward to avoid double lines */
-.job__box+.job__box {
+.job__box + .job__box {
     border-top: none;
+}
+
+.job__box:hover {
+    background-color: #cccccc65;
+    color: #000;
 }
 
 .job__box p {
     margin-bottom: 5px;
+    font-size: 18px;
 }
-.job__box:hover{
-    background-color: #f1f1f182;
-    color: #000;
+.text-company{font-size: 15px; font-weight: bold;}
+.job__description {display: flex; justify-content: space-between;}
+.section2 {display: flex; justify-content: space-between;}
+
+@media (max-width: 1024px) and (min-width: 800px) {
+    .job__box {
+        padding: 20px 50px;
+    }
 }
 
-@media (max-width:576px) {
-    .job__box{padding: 20px;}
+@media (max-width: 800px) {
+    .text-title-end {
+        padding-bottom: 0px;
+        margin-bottom: 15px;
+    }
+
+    .job__box {
+        padding: 20px 30px;
+    }
 }
 
-@media (min-width:800px) and (max-width:1024px) {
-    .job__box{padding: 20px 50px;}
+@media (max-width: 768px) {
+    .job__box {
+        padding: 10px 30px;
+    }
 }
-@media (max-width:800px){
-    .job__box{padding: 20px 30px;}
-   
+
+@media (max-width: 576px) {
+    .work-section {
+        flex-direction: column;
+    }
+
+    .text-title-end {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .job__box {
+        padding: 10px 15px;
+    }
 }
-@media (max-width:768px) {
-    .job__box{padding: 10px 30px;}
-}
-@media (max-width:576px) {
-    .job__box{padding: 10px 15px;}
+
+@media (max-width: 390px) {
+    .text-title-end {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .job__box {
+        padding: 10px 5px;
+    }
+
+    .job__box p {
+        font-size: 12px;
+    }
+
+    .job__experience h2 {
+        font-size: 16px;
+    }
+
+    .job__experience p {
+        font-size: 12px;
+    }
 }

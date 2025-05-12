@@ -5,7 +5,7 @@ export const data = {
       label: 'github',
       icon: 'fab fa-github',
       url: 'http://github.com/ShivkumarSuthar',
-      group: 'group-2'
+      group: 'group-1'
     },
     {
       label: 'linkedin',
@@ -14,7 +14,7 @@ export const data = {
       group: 'group-2'
     },
     {
-      label: 'LeetCode',
+      label: 'leet code',
       icon: 'fas fa-code',
       url: 'https://leetcode.com/yourprofile',
       group: 'group-1'
@@ -23,13 +23,13 @@ export const data = {
       label: 'facebook',
       icon: 'fab fa-facebook-f',
       url: 'https://www.facebook.com/shivkumar.suthar.165',
-      group: 'group-2'
+      group: 'group-3'
     },
     {
       label: 'instagram',
       icon: 'fab fa-instagram',
       url: 'https://instagram.com/yourprofile',
-      group: 'group-2'
+      group: 'group-3'
     }
   ],
   "skills": {

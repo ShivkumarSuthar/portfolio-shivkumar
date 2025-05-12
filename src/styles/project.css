@@ -1,5 +1,5 @@
 .projects__wrapper {
-    padding: 2rem 0;
+    padding: 20px 80px;
   }
   
   .page__title__text {
@@ -8,11 +8,12 @@
   }
   
   .projects__intro {
-    margin-bottom: 2rem;
+    margin-bottom: 20px;
+    font-size: 18px;
   }
   
   .projects__grid {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
   }
   
   .project__item__wrapper {
@@ -145,13 +146,21 @@
   
   /* Responsive adjustments */
   @media (max-width: 768px) {
+    .project__item__wrapper{margin-bottom: 0; padding: 10px 15px;}
     .project__image__container {
       height: 300px;
     }
   }
   
   @media (max-width: 576px) {
+    .projects__intro{font-size: 14px; text-align: justify;}
     .project__image__container {
       height: 250px;
     }
+    .projects__wrapper{
+      padding: 20px 15px;
+    }
+  }
+  @media (max-width: 390px) {
+   .projects__intro {font-size: 12px; line-height: 150%;} 
   }

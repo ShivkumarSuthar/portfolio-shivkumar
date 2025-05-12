@@ -4,7 +4,7 @@
 }
 
 .navbar-brand {
-  color: #fff;
+  color: #AAB396;
 }
 
 .nav-link {
@@ -19,23 +19,8 @@
 .nav-link.show {
   color: #00bfff !important;
 }
-
-.contact-btn {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #fff;
-  padding: 10px 20px;
-  border-radius: 100vmax;
-  text-decoration: none;
-}
-
-.contact-btn:hover {
-  background-color: #000;
-  color: #fff;
-}
-
 .brand {
-  color: #fff;
+  color: #8AB2A6;
   font-weight: bold;
 }
 
@@ -69,10 +54,10 @@
 }
 
 .contact-btn {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #fff;
+  background: #EFEEEA;
+  color: #143D60;
   padding: 10px 20px;
+  border: 1px solid #3E3F5B;
   border-radius: 100vmax;
   text-decoration: none;
   font-weight: 500;
@@ -80,9 +65,8 @@
 }
 
 .contact-btn:hover {
-  background-color: #000;
-  color: #fff;
-  border-color: #fff;
+  color: #EFEEEA;
+  background: #143D60;
 }
 
 .offcanvas-bg {
@@ -109,8 +93,9 @@
 }
 
 footer {
-  background-color: #121212;
-  color: #fff;
+  /* background-color: #97866A; */
+  /* border-top:1px solid #97866A ; */
+  /* color: #97866A; */
   padding: 10px;
   padding: 1% 5%;
 }
@@ -139,8 +124,8 @@ footer {
 .brand__text__2 {
   font-size: 80px;
   font-weight: bolder;
-  letter-spacing: 5px;
-  line-height: 80px;
+  letter-spacing: 2px;
+  /* line-height: 80px; */
 }
 
 .profile__text__1 {
@@ -149,15 +134,17 @@ footer {
 
 .profile__text__1,
 .profile__text__2 {
-  font-size: 25px;
-  line-height: 30px;
+  font-size: 30px;
+  line-height: 50px;
   padding-left: 10px;
   font-weight: lighter;
+  color: #190101;
 
 }
 
 .page__title__text {
   font-size: 18px;
+
 }
 
 .social__btn {
@@ -165,7 +152,10 @@ footer {
 }
 
 @media (max-width: 576px) {
-
+.contact-btn{
+font-size: 12px;
+padding: 10px 12px;
+}
   .navbar,
   .main-navbar {
     padding: 20px 20px 20px 20px;
@@ -178,7 +168,7 @@ footer {
   .brand__text__1,
   .brand__text__2 {
     font-size: 60px;
-    line-height: 60px;
+    /* line-height: 60px; */
     margin-bottom: 0;
   }
 
@@ -239,11 +229,17 @@ footer {
 
   .brand__text__1,
   .brand__text__2 {
-    font-size: 55px;
+    font-size: 40px;
   }
 
   .profile__text__1,
   .profile__text__2 {
-    font-size: 25px;
+    font-size: 14px;
+    line-height: 200%;;
   }
+  .btn__social i{font-size: 15px !important;}
+}
+
+@media (max-width: 325px) {
+  .contact-btn{font-size: 8px; padding: 8px 10px; letter-spacing: 1px;}
 }

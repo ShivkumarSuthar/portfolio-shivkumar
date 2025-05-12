@@ -4,8 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 function Projects() {
   return (
-    <Container className='projects__wrapper'>
-      <h3 className='page__title__text'>.../Projects ...</h3>
+    <div className='projects__wrapper'>
+      <h3 className='page__title__text'>.../Projects...</h3>
       <p className='projects__intro'>
         "These projects were created during my free time before joining the professional world. They reflect my passion for coding and my desire to learn and experiment with new technologies. Each project is a testament to my self-driven initiative and enthusiasm for building scalable and functional applications."
       </p>
@@ -43,7 +43,7 @@ function Projects() {
           </Col>
         ))}
       </Row>
-    </Container>
+    </div>
   )
 }
 

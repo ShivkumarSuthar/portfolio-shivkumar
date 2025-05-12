@@ -1,3 +1,64 @@
+.custom-arrow {
+    padding: 10px;
+    aspect-ratio: 1 / 1;
+    /* border: 1px solid #`000; */
+    border-radius: 50%;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: #ffffff94; */
+    cursor: pointer;
+}
+
+.custom-arrow svg {
+    font-size: 22px;
+    fill: var(--color-dark-gray);
+}
+
+.custom-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.custom-next-arrow {
+    position: absolute;
+    right: 0px;
+    z-index: 1000;
+}
+
+.custom-prev-arrow {
+    position: absolute;
+    left: 0px;
+    z-index: 1000;
+}
+
+.carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.fade-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    /* Adjust width based on how strong you want the fade */
+    z-index: 2;
+    pointer-events: none;
+    /* So that clicks pass through */
+}
+
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--color-black) 0%, transparent 100%);
+}
+
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--color-black) 0%, transparent 100%);
+}
+
 .carousel-wrapper {
     width: 100%;
     padding: 4rem 0;
@@ -27,7 +88,8 @@
 }
 
 .card {
-    background: #1e1e1e;
+    background: var(--color-black);
+    border: 1px solid var(--color-dark-gray);
     border-radius: 20px;
     height: 100%;
     width: 100%;
@@ -57,8 +119,7 @@
     height: 100%;
     /* left: 0; */
     padding: 1rem;
-    background: #0000;
-    color: #fff;
+    color: var(--color-dark-gray);
 }
 
 .swiper-slide-active .overlay {
@@ -68,8 +129,8 @@
     height: 100%;
     /* left: 0; */
     padding: 1rem;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    background: var(--color-dark-gray);
+    color: var(--color-black);
 }
 
 .swiper-slide .image-wrapper {
@@ -94,12 +155,13 @@
 }
 
 .read-btn {
-    background-color: #fff;
-    color: #000;
-    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-black);
+    color: var(--color-black);
+    padding: 10px 20px;
+    background: transparent;
+    cursor: pointer;;
     border-radius: 999px;
     font-weight: 500;
-    border: none;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -110,19 +172,6 @@
     background-color: #eee;
 }
 
-.swiper-button-prev,
-.swiper-button-next {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
-    padding: 0.5rem 0.7rem;
-    transition: background 0.3s ease;
-}
-
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
 
 .swiper-container {
     width: 100%;
@@ -130,23 +179,23 @@
     /* add this if height is missing */
     padding: 30px 0;
 }
+
 .swiper-pagination-bullets {
     bottom: 10px !important;
     text-align: center;
-  }
-  
-  .swiper-pagination-bullet {
-    background: white;
+}
+
+.swiper-pagination-bullet {
+    /* background: white; */
     opacity: 0.5;
     width: 10px;
     height: 10px;
     margin: 0 4px;
     border-radius: 50%;
     transition: all 0.3s;
-  }
-  
-  .swiper-pagination-bullet-active {
+}
+
+.swiper-pagination-bullet-active {
     opacity: 1;
     transform: scale(1.2);
-  }
-  
+}

@@ -10,13 +10,13 @@ function AboutSection() {
                 <Col md={7} lg={12}>
                     <Row>
                         {/* <Col lg={3}> */}
-                            <p className='page__title__text'>../About me ...</p>
+                            <p className='page__title__text'>../About me...</p>
                         {/* </Col> */}
                         {/* <Col lg={9}> */}
                             <div className='page__heading__text'>
-                                <p>
+                                {/* <p> */}
                                     I'm Shivkumar Suthar, a MERN Stack Developer at Dev Technosys, specializing in dynamic, scalable, and high-performance web app with expertise in JavaScript, React, and Node.js. At Dev Technosys, a CMMI Level 3 certified IT services company, I transform client requirements into innovative solutions that meet the needs of businesses globally.
-                                </p>
+                                {/* </p> */}
                             </div>
 
 

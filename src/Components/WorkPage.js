@@ -1,47 +1,42 @@
-import { data } from '@/data/constant'
-import React from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { data } from '@/data/constant';
+import React from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 
 function WorkPage() {
     return (
-        <div fluid className='work__page__wrapper'>
-            <Row>
-                {/* <Col xs={12}> */}
-                    <h1 className="text-end mb-3 pe-12">Work Profiles</h1>
-                {/* </Col> */}
-            </Row>
+        <div className="work__page__wrapper">
+                <Row>
+                    <Col>
+                        <h1 className="text-title-end">Work Profiles</h1>
+                    </Col>
+                </Row>
 
-            {data.experience.jobs.length > 0 &&
-                data.experience.jobs.map((job, index) => (
-                    <Row key={index} className="job__box">
-                        <Col lg={3}>
-                            <div className="job-container">
-                                <p className='job__year'>{job.duration}</p>
-                                <p className='job__period'>{job.period}</p>
-                            </div>
-                        </Col>
-                        <Col lg={3}>
-                            <p className="fw-bold">{job.company}</p>
-                        </Col>
-                        <Col lg={6}>
-                            <div className='job__description d-flex gap-2'>
-                                <p className='job__profil mb-0'>{job.role}</p> |
-                                <p className='job__tech mb-0'>{job.tech}</p>
-                            </div>
-                        </Col>
-                    </Row>
-                ))
-            }
-            <Row className='job__exerience text-end'>
-                {/* <Col lg={11}> */}
-                    <div className='job__exerience__div my-3'>
-                        <h1>Work Experience</h1>
-                        <p className='experience__no'>{data.experience.total}</p>
-                    </div>
-                {/* </Col> */}
-            </Row>
+                {data.experience.jobs.length > 0 &&
+                    data.experience.jobs.map((job, index) => (
+                        <Row key={index} className="job__box">
+                            <Col md={3} xs={12} className="work-section section1">
+                                <p className="job__year">{job.duration}</p>
+                                <p className="job__period">{job.period}</p>
+                            </Col>
+                            <Col md={9} xs={12} className="work-section section2">
+                                <h5 className="text-company">{job.company}</h5>
+                                <div className="job__description">
+                                    <p className="job__profil mb-0">{job.role}</p>
+                                    <p className="job__tech mb-0">{job.tech}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                    ))
+                }
+
+                <Row>
+                    <Col className="job__experience job__experience__div text-end">
+                        <h2>Work Experience</h2>
+                        <p className="experience__no">{data.experience.total}</p>
+                    </Col>
+                </Row>
         </div>
-    )
+    );
 }
 
-export default WorkPage
+export default WorkPage;

@@ -11,7 +11,7 @@ function SocialSection() {
           {data.socialLinks.filter(item => item.group === 'group-1').map((item, index) => (
             <a key={index} href={item.url} className="btn btn__social" target="_blank" rel="noopener noreferrer">
               <i className={item.icon}></i>
-              <span className="d-none d-sm-inline">{item.label}</span>
+              <span className="">{item.label}</span>
             </a>
           ))}
         </div>
@@ -21,7 +21,15 @@ function SocialSection() {
           {data.socialLinks.filter(item => item.group === 'group-2').map((item, index) => (
             <a key={index} href={item.url} className="btn btn__social" target="_blank" rel="noopener noreferrer">
               <i className={item.icon}></i>
-              <span className="d-none d-sm-inline">{item.label}</span>
+              <span className="">{item.label}</span>
+            </a>
+          ))}
+        </div>
+        <div className="group group-3page__heading__text">
+          {data.socialLinks.filter(item => item.group === 'group-3').map((item, index) => (
+            <a key={index} href={item.url} className="btn btn__social" target="_blank" rel="noopener noreferrer">
+              <i className={item.icon}></i>
+              <span className="">{item.label}</span>
             </a>
           ))}
         </div>
