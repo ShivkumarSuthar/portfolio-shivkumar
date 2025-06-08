@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const projectRoutes = require('./routes/project');
 const workRoutes= require('./routes/workHistory')
+const educationRoutes = require('./routes/education');
 
 const app = express();
 
@@ -22,6 +23,7 @@ mongoose
 // Use routes
 app.use('/api/project', projectRoutes);
 app.use('/api/work',workRoutes )
+app.use('/api/education', educationRoutes);
 
 
 // Default route
