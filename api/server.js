@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const projectRoutes = require('./routes/project');
 const workRoutes= require('./routes/workHistory')
 const educationRoutes = require('./routes/education');
+const skillsRoutes = require('./routes/skills');
 
 const app = express();
 
@@ -12,18 +13,19 @@ app.use(express.urlencoded({ extended: true }));
 
 // Connect DB
 mongoose
-  .connect('mongodb://localhost:27017/portfolio', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log('MongoDB error:', err));
+.connect('mongodb://localhost:27017/portfolio', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch((err) => console.log('MongoDB error:', err));
 
 
 // Use routes
 app.use('/api/project', projectRoutes);
 app.use('/api/work',workRoutes )
 app.use('/api/education', educationRoutes);
+app.use('/api/skills', skillsRoutes);        
 
 
 // Default route
