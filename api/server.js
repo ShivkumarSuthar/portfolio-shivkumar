@@ -4,6 +4,8 @@ const projectRoutes = require('./routes/project');
 const workRoutes= require('./routes/workHistory')
 const educationRoutes = require('./routes/education');
 const skillsRoutes = require('./routes/skills');
+const dashboardRoute= require('./routes/dashboard')
+const profileRoute= require('./routes/profile')
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use('/api/project', projectRoutes);
 app.use('/api/work',workRoutes )
 app.use('/api/education', educationRoutes);
 app.use('/api/skills', skillsRoutes);        
+app.use('/api/dashboard', dashboardRoute);        
+app.use('/api/profile', profileRoute);        
 
 
 // Default route
