@@ -40,21 +40,63 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create new skill category
+
+
+// Add or update a skill in a category
 router.post('/create', async (req, res) => {
+  const { category, cat_description, skills } = req.body;
+
   try {
-    const newSkillCategory = await skillsModel.create(req.body);
-    res.status(201).json({
-      message: 'Skill category created successfully',
-      data: newSkillCategory,
+    // 1. Check if category already exists
+    const existingCategory = await skillsModel.findOne({ category });
+
+    if (existingCategory) {
+      // 2. Category exists → Check if skill already exists
+      const incomingSkill = skills[0];
+
+      const duplicate = existingCategory.skills.find(
+        (s) => s.name.toLowerCase() === incomingSkill.name.toLowerCase()
+      );
+
+      if (duplicate) {
+        return res.status(400).json({
+          message: `Skill "${incomingSkill.name}" already exists in category "${category}".`,
+        });
+      }
+
+      // 3. Add skill to existing category
+      existingCategory.skills.push(incomingSkill);
+      await existingCategory.save();
+
+      return res.status(200).json({
+        message: 'Skill added to existing category',
+        data: existingCategory,
+      });
+    }
+
+    // 4. Category does not exist → create new
+    const newCategory = new skillsModel({
+      category,
+      cat_description,
+      skills,
     });
+
+    await newCategory.save();
+
+    return res.status(201).json({
+      message: 'New category with skill created successfully',
+      data: newCategory,
+    });
+
   } catch (err) {
-    res.status(500).json({
+    console.error('Skill create error:', err);
+    return res.status(500).json({
       message: 'Something went wrong',
       error: err.message,
     });
   }
 });
+
 
 // Update skill category
 router.put('/update/:id', async (req, res) => {

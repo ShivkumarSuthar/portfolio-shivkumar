@@ -79,4 +79,29 @@ router.delete('/remove/:id', async (req, res) => {
   }
 })
 
+router.get('/', async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Missing project ID in query' });
+    }
+
+    const projectData = await projectModel.findOne({ _id: id });
+
+    if (projectData) {
+      res.status(200).json({ data: projectData });
+    } else {
+      res.status(404).json({ message: 'No data found' });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: 'Something went wrong',
+      error: err.message || err,
+    });
+  }
+});
+
+
+
 module.exports = router;

@@ -7,6 +7,10 @@ const skillSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    cat_description:{
+      type:String,
+       trim: true,
+    },
     skills: [
       {
         name: {

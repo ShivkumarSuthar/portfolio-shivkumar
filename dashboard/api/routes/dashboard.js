@@ -26,14 +26,12 @@ router.get('/', async (req, res) => {
       .find({})
       .sort({ createdAt: -1 })
       .limit(3)
-      .select('title techStack createdAt');
 
     // Get recent work history (limit 2)
     const recentWorkHistory = await workHistoryModel
       .find({})
       .sort({ startDate: -1 })
       .limit(2)
-      .select('company position startDate endDate isCurrent');
 
     // Send response
     res.status(200).json({

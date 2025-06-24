@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const projectRoutes = require('./routes/project');
 const workRoutes= require('./routes/workHistory')
@@ -10,6 +11,7 @@ const profileRoute= require('./routes/profile')
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
