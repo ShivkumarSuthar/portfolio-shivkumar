@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -16,8 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Connect DB
-mongoose
-.connect('mongodb://localhost:27017/portfolio', {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -39,6 +39,8 @@ app.get('/', (req, res) => {
   res.send('Portfolio API running!');
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
