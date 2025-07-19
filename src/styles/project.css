@@ -198,3 +198,23 @@
   @media (max-width: 390px) {
    .projects__intro {font-size: 12px; line-height: 150%;} 
   }
+  .project__fallback {
+  height: 100%;
+  width: 100%;
+  background: #1e1e1e;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  border-radius: 12px;
+}
+.bg__block {
+  background: linear-gradient(135deg, #1f1f1f, #2d2d2d);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}

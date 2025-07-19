@@ -32,7 +32,7 @@ function AboutSection() {
 
             </Row>
             <Row className='about__section__bottom'>
-                <Col lg={7} sm={12} className='order-2 order-md-1'>
+                <Col lg={12} sm={12} className='order-2 order-md-1'>
                     <Row>
                         <Col md={12}>
                             <div className='skills__frontend skill__div'>
@@ -108,12 +108,11 @@ function AboutSection() {
                         </Col>
                     </Row>
                 </Col>
-                <Col lg={5} sm={12} className='order-1 order-md-2 mobile__d__none me__profile__div'>
-                    {/* <div className='me__profile__div' style={{background:"#333"}}> */}
-                        {/* <Image src={data.profile__image} alt={'shivkumar suthar'} width='100' height='100' /> */}
-                        {/* <div className='w-100' style={{background:"#333"}}></div> */}
-                    {/* </div> */}
-                </Col>
+                {/* <Col lg={5} sm={12} className='order-1 order-md-2 mobile__d__none me__profile__div'>
+                    <div className='me__profile__div' style={{background:"#333"}}>
+                        <Image src={data.profile__image} alt={'shivkumar suthar'} width='100' height='100' />
+                    </div>
+                </Col> */}
             </Row>
         </div>
     )
