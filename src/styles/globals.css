@@ -6,11 +6,12 @@
 @import url('./project.css');
 @import url('./carousel.css');
 @import url('./font.css');
+@import url('./notes-dashboard.css');
 
 :root {
   --color-light-gray: #A6A6A6;
   --color-white-smoke: #F5F5F5;
-  --color-black: #121212;
+  --color-black: #423b4eff;
   --color-dark-gray: #3D3D3D;
 }
 
