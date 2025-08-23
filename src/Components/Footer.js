@@ -12,6 +12,20 @@ const Footer = () => {
             <div className="footer-email">
               <a href="mailto:hello@example.com">shiv.str21@gmail.com</a>
             </div>
+            <div className="footer-socials">
+              <a href="#" className="footer-social-icon" aria-label="Facebook">
+                <FaFacebookF />
+              </a>
+              <a href="#" className="footer-social-icon" aria-label="Twitter">
+                <FaTwitter />
+              </a>
+              <a href="#" className="footer-social-icon" aria-label="LinkedIn">
+                <FaLinkedinIn />
+              </a>
+              <a href="#" className="footer-social-icon behance" aria-label="Behance">
+                <FaBehance />
+              </a>
+            </div>
 
             <div className="footer-phone">
               <a href="tel:+1234567890" className="phone-number">+91 6377290604</a>
@@ -20,20 +34,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-socials">
-          <a href="#" className="footer-social-icon" aria-label="Facebook">
-            <FaFacebookF />
-          </a>
-          <a href="#" className="footer-social-icon" aria-label="Twitter">
-            <FaTwitter />
-          </a>
-          <a href="#" className="footer-social-icon" aria-label="LinkedIn">
-            <FaLinkedinIn />
-          </a>
-          <a href="#" className="footer-social-icon behance" aria-label="Behance">
-            <FaBehance />
-          </a>
-        </div>
+       
 
         {/* <div className="footer-scroll-top">
           <a href="#top" className="footer-scroll-link">

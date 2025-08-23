@@ -54,8 +54,9 @@
 }
 
 .contact-btn {
-  background: #EFEEEA;
-  color: #143D60;
+  height: fit-content;
+  color: #EFEEEA;
+  background: #143D60;
   padding: 10px 20px;
   border: 1px solid #3E3F5B;
   border-radius: 100vmax;
