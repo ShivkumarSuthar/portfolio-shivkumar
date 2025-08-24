@@ -1,8 +1,11 @@
 import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 function MenuBar() {
+  const pathname = usePathname();
+  const isLearningMaterial = pathname.includes("learning-materials/list");
   return (
     <Navbar expand="lg" className="main-navbar" variant="dark">
       <Container fluid className="p-0 d-flex justify-content-between align-items-center">
@@ -12,13 +15,13 @@ function MenuBar() {
         {/* Navigation links in the center */}
 
         {/* Connect Button on the right */}
-        <Nav className="ms-auto d-flex">
+        <Nav className="ms-auto d-flex flex-row">
           <Link
-            href="/notes-dashboard/learning-materials/list"
+            href={isLearningMaterial ? "/" : "/notes-dashboard/learning-materials/list"}
             className="nav-link contact-btn"
             title="Learning Materials"
           >
-            <i className="fas fa-graduation-cap"></i>
+            <i className={isLearningMaterial ? "fas fa-home" : "fas fa-graduation-cap"}></i>
           </Link>
           <Link
             href="tel:+919876543210"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Pagination } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Pagination } from 'react-bootstrap';
 import MenuBar from '@/Components/MenuBar';
 import Footer from '@/Components/Footer';
 import Head from 'next/head';
@@ -9,14 +9,10 @@ import Swal from 'sweetalert2';
 export default function LearningMaterials() {
   const [subjects, setSubjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [subjectsPerPage, setSubjectsPerPage] = useState(6); // default 6
-  const startIndex = (currentPage - 1) * subjectsPerPage + 1;
-  const endIndex = Math.min(currentPage * subjectsPerPage, subjects.length);
-
+  const [subjectsPerPage, setSubjectsPerPage] = useState(6); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState("");
   const [totalPages, setTotalPages] = useState(1);
-
-
-
 
   useEffect(() => {
     const fetchMaterials = async () => {
@@ -31,7 +27,6 @@ export default function LearningMaterials() {
     };
     fetchMaterials();
   }, [currentPage, subjectsPerPage]);
-
 
   // Update note counts for each subject
   useEffect(() => {
@@ -48,7 +43,6 @@ export default function LearningMaterials() {
       updateNoteCounts();
     }
   }, [subjects.length]);
-
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -88,6 +82,7 @@ export default function LearningMaterials() {
 
           if (res.ok) {
             Swal.fire("Deleted!", "The subject has been deleted.", "success");
+            setSubjects((prev) => prev.filter((s) => s._id !== id));
           } else {
             Swal.fire("Error", "Failed to delete the subject.", "error");
           }
@@ -99,6 +94,16 @@ export default function LearningMaterials() {
     });
   };
 
+  // Filter subjects dynamically without extra state
+  const filteredSubjects = subjects.filter((subject) => {
+    const matchesSearch = subject.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = filter === "" || subject.title === filter;
+    return matchesSearch && matchesFilter;
+  });
+
+  const startIndex = (currentPage - 1) * subjectsPerPage;
+  const endIndex = Math.min(currentPage * subjectsPerPage, filteredSubjects.length);
+
   return (
     <>
       <Head>
@@ -106,7 +111,7 @@ export default function LearningMaterials() {
         <meta name="description" content="Organize your learning notes by subject" />
       </Head>
 
-      <Container fluid className="py-5 notes-dashboard">
+      <Container fluid className="py-5 notes-dashboard learning-material-wrapper">
         <Row className="mb-5 align-items-center">
           <Col lg={6} className="mb-3 mb-lg-0">
             <h5 className="display-5 mb-2">
@@ -117,6 +122,7 @@ export default function LearningMaterials() {
             </p>
           </Col>
 
+
           <Col lg={6}>
             <div className="d-flex justify-content-lg-end align-items-center gap-2">
               {/* Search input */}
@@ -124,38 +130,45 @@ export default function LearningMaterials() {
                 type="text"
                 className="form-control form-control-lg"
                 placeholder="Search subjects..."
-                style={{ maxWidth: '220px' }}
-              // onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ maxWidth: '220px', height: '40px' }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
 
               {/* Filter dropdown */}
               <select
                 className="form-select form-select-lg"
-                style={{ maxWidth: '150px' }}
-              // onChange={(e) => setFilter(e.target.value)}
+                style={{ maxWidth: '150px', height: "46px" }}
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
               >
                 <option value="">All</option>
-                <option value="primary">Web Dev</option>
-                <option value="success">DSA</option>
-                <option value="info">Database</option>
-                {/* Add more as needed */}
+                {subjects.map((subject) => (
+                  <option key={subject._id} value={subject.title}>
+                    {subject.title}
+                  </option>
+                ))}
               </select>
 
               {/* Add button */}
               <Link href="/notes-dashboard/learning-materials/add" passHref>
-                <Button variant="link" size="lg">
-                  <i className="fas fa-plus me-2"></i>
-                  Create New
+                <Button
+                  variant="primary"
+                  className="d-flex align-items-center gap-2 px-4 shadow-sm"
+                  style={{ height: "43px" }}
+                >
+                  <i className="fas fa-plus"></i>
+                  <span>Create New</span>
                 </Button>
               </Link>
             </div>
           </Col>
+
         </Row>
 
-
         <Row className="g-4">
-          {subjects
-            .slice((currentPage - 1) * subjectsPerPage, currentPage * subjectsPerPage)
+          {filteredSubjects
+            .slice(startIndex, endIndex)
             .map((subject) => (
               <Col key={subject.id} lg={4} md={6}>
                 <Card className="subject-card h-100">
@@ -197,29 +210,27 @@ export default function LearningMaterials() {
                           variant="danger"
                           size="sm"
                           className="px-3 py-2 rounded d-flex align-items-center"
-                        onClick={() => handleDeleteSubject(subject._id)}
+                          onClick={() => handleDeleteSubject(subject._id)}
                         >
                           <i className="fas fa-trash me-2"></i>
                           Remove
                         </Button>
                       </div>
-
-
-
                     </div>
                   </Card.Body>
                 </Card>
               </Col>
             ))}
         </Row>
-        {subjects.length > 0 && (
+
+        {filteredSubjects.length > 0 && (
           <div className="mt-4 p-3 rounded ">
             <div className="d-flex flex-column align-items-center gap-3">
 
               {/* Top: Showing info and dropdown */}
               <div className="d-flex flex-wrap justify-content-center align-items-center gap-3 text-light">
                 <span>
-                  Showing <strong>{startIndex + 1}</strong> – <strong>{Math.min(endIndex, subjects.length)}</strong> of <strong>{subjects.length}</strong>
+                  Showing <strong>{startIndex + 1}</strong> – <strong>{endIndex}</strong> of <strong>{filteredSubjects.length}</strong>
                 </span>
                 <div className="d-flex align-items-center gap-2">
                   <label htmlFor="perPage" className="mb-0">Items per page:</label>
@@ -233,7 +244,7 @@ export default function LearningMaterials() {
                       setCurrentPage(1);
                     }}
                   >
-                    {Array.from({ length: Math.ceil(subjects.length / 6) }, (_, i) => (i + 1) * 6)
+                    {Array.from({ length: Math.ceil(filteredSubjects.length / 6) }, (_, i) => (i + 1) * 6)
                       .map(size => (
                         <option key={size} value={size}>{size}</option>
                       ))}
@@ -247,7 +258,7 @@ export default function LearningMaterials() {
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 />
-                {[...Array(totalPages).keys()].map(num => (
+                {[...Array(Math.ceil(filteredSubjects.length / subjectsPerPage)).keys()].map(num => (
                   <Pagination.Item
                     key={num + 1}
                     active={num + 1 === currentPage}
@@ -257,22 +268,21 @@ export default function LearningMaterials() {
                   </Pagination.Item>
                 ))}
                 <Pagination.Next
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === Math.ceil(filteredSubjects.length / subjectsPerPage)}
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredSubjects.length / subjectsPerPage)))}
                 />
               </Pagination>
-
             </div>
           </div>
         )}
 
-        {subjects.length === 0 && (
+        {filteredSubjects.length === 0 && (
           <Row>
             <Col>
               <div className="text-center py-5">
                 <i className="fas fa-book-open fa-4x text-muted mb-4"></i>
-                <h3 className="text-muted">No learning materials yet</h3>
-                <p className="text-muted mb-4">Start by adding your first learning subject</p>
+                <h3 className="text-muted">No learning materials found</h3>
+                <p className="text-muted mb-4">Try changing your search or filter</p>
               </div>
             </Col>
           </Row>

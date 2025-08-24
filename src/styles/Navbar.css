@@ -1,6 +1,6 @@
 .navbar,
 .main-navbar {
-  padding: 20px 80px 30px 80px;
+  padding: 20px 50px 30px 50px;
 }
 
 .navbar-brand {
@@ -54,12 +54,16 @@
 }
 
 .contact-btn {
-  height: fit-content;
+  width: 50px;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
   color: #EFEEEA;
-  background: #143D60;
-  padding: 10px 20px;
+  background: #67737d;
+  padding: 10px;
   border: 1px solid #3E3F5B;
-  border-radius: 100vmax;
+  border-radius: 5px;
   text-decoration: none;
   font-weight: 500;
   transition: 0.3s;
@@ -160,6 +164,9 @@ padding: 10px 12px;
   .navbar,
   .main-navbar {
     padding: 20px 20px 20px 20px;
+  }
+  .learning-material-wrapper{
+    padding: 30px 20px !important;
   }
 
   .footer__wrapper {

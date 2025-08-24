@@ -110,16 +110,22 @@ export default function LearningMaterialPage() {
   }, [materialId, editor]);
 
   const buttons = [
-    { iconClass: "fas fa-bold", actionName: "bold", action: () => editor.chain().focus().toggleBold().run(), title: "Bold" },
-    { iconClass: "fas fa-italic", actionName: "italic", action: () => editor.chain().focus().toggleItalic().run(), title: "Italic" },
-    { iconClass: "fas fa-list-ul", actionName: "bulletList", action: () => editor.chain().focus().toggleBulletList().run(), title: "Bullet List" },
-    { iconClass: "fas fa-list-ol", actionName: "orderedList", action: () => editor.chain().focus().toggleOrderedList().run(), title: "Ordered List" },
-    { iconClass: "fas fa-code", actionName: "codeBlock", action: () => editor.chain().focus().toggleCodeBlock().run(), title: "Code Block" },
-    { iconClass: "fas fa-highlighter", actionName: "highlight", action: () => editor.chain().focus().toggleHighlight().run(), title: "Highlight" },
+    { label: "B", actionName: "bold", action: () => editor.chain().focus().toggleBold().run(), title: "Bold" },
+    { label: "I", actionName: "italic", action: () => editor.chain().focus().toggleItalic().run(), title: "Italic" },
+    { label: "• List", actionName: "bulletList", action: () => editor.chain().focus().toggleBulletList().run(), title: "Bullet List" },
+    { label: "1. List", actionName: "orderedList", action: () => editor.chain().focus().toggleOrderedList().run(), title: "Ordered List" },
+    { label: "</>", actionName: "codeBlock", action: () => editor.chain().focus().toggleCodeBlock().run(), title: "Code Block" },
+    { label: "H1", actionName: "heading1", action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(), title: "Heading 1" },
+    { label: "H2", actionName: "heading2", action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(), title: "Heading 2" },
+    { label: "H3", actionName: "heading3", action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(), title: "Heading 3" },
+    { label: "¶", actionName: "paragraph", action: () => editor.chain().focus().setParagraph().run(), title: "Paragraph" },
     { iconClass: "fas fa-eraser", actionName: null, action: () => editor.chain().focus().clearNodes().unsetAllMarks().run(), title: "Clear" },
-    { iconClass: "fas fa-undo", actionName: null, action: () => editor.chain().focus().undo().run(), title: "Undo" },
-    { iconClass: "fas fa-redo", actionName: null, action: () => editor.chain().focus().redo().run(), title: "Redo" },
+    { label: "↺", actionName: null, action: () => editor.chain().focus().undo().run(), title: "Undo" },
+    { label: "↻", actionName: null, action: () => editor.chain().focus().redo().run(), title: "Redo" },
   ];
+
+
+
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Please enter a name for the learning material."),
@@ -189,7 +195,7 @@ export default function LearningMaterialPage() {
   };
 
   return (
-    <Container fluid style={{ padding: "20px", color: "#f8f8f2" }}>
+    <Container fluid className="learning-material-wrapper">
       <h2 style={{ marginBottom: "10px", color: "#e0d7ff" }}>
         {materialId && materialId !== "add" ? "Edit Learning Material" : "Add Learning Material"}
       </h2>
@@ -208,15 +214,7 @@ export default function LearningMaterialPage() {
             <Field
               name="title"
               placeholder="Learning Material Name"
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "10px",
-                borderRadius: "6px",
-                border: "1px solid #444",
-                background: "#2e2e2e",
-                color: "white",
-              }}
+              className="input-field"
             />
             {errors.title && touched.title && (
               <div style={{ color: "red", marginBottom: "10px" }}>{errors.title}</div>
@@ -227,18 +225,19 @@ export default function LearningMaterialPage() {
               name="description"
               placeholder="Description"
               rows={3}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginBottom: "20px",
-                borderRadius: "6px",
-                border: "1px solid #444",
-                background: "#2e2e2e",
-                color: "white",
-              }}
+              className="input-field"
             />
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "16px", marginTop: "20px" }}>
+           
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "8px",
+                marginBottom: "16px",
+                marginTop: "20px",
+              }}
+            >
               {editor &&
                 buttons.map((btn, idx) => {
                   const isActive = btn.actionName ? editor.isActive(btn.actionName) : false;
@@ -249,7 +248,7 @@ export default function LearningMaterialPage() {
                       onClick={btn.action}
                       title={btn.title}
                       style={{
-                        width: "40px",
+                        minWidth: "40px",
                         height: "40px",
                         display: "flex",
                         alignItems: "center",
@@ -260,13 +259,20 @@ export default function LearningMaterialPage() {
                         color: isActive ? "white" : "#ddd",
                         cursor: "pointer",
                         fontSize: "16px",
+                        padding: "0 8px",
                       }}
                     >
-                      <i className={btn.iconClass}></i>
+                      {/* Render icon if available, otherwise label */}
+                      {btn.iconClass ? (
+                        <i className={btn.iconClass}></i>
+                      ) : btn.label ? (
+                        <span>{btn.label}</span>
+                      ) : null}
                     </button>
                   );
                 })}
             </div>
+
 
             <EditorContent editor={editor} spellCheck={false} />
 
