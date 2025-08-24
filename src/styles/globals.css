@@ -8,6 +8,7 @@
 @import url('./font.css');
 @import url('./notes-dashboard.css');
 
+
 :root {
   --color-light-gray: #A6A6A6;
   --color-white-smoke: #F5F5F5;
@@ -15,7 +16,7 @@
   --color-dark-gray: #3D3D3D;
 }
 
-body{
+body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -23,14 +24,15 @@ body{
   background: var(--color-black);
 }
 
-*{
+* {
   /* font-family: OpenSerif; */
   font-family: "Fira Code", monospace;
   font-size: 15px;
   color: var(--color-white-smoke);
   /* font-weight: bold; */
 }
-.layout__wrapper{
+
+.layout__wrapper {
   min-height: 100vh;
 }
 
@@ -38,24 +40,29 @@ body{
 
 /* For Webkit browsers (Chrome, Safari, newer versions of Opera) */
 ::-webkit-scrollbar {
-  width: 4px; /* Keeps the thin width shown in your image */
+  width: 4px;
+  /* Keeps the thin width shown in your image */
   height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000; /* Pure black background */
+  background: #000000;
+  /* Pure black background */
   border: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #444444; /* Light gray thumb color */
+  background: #444444;
+  /* Light gray thumb color */
   border-radius: 0;
   border: none;
-  min-height: 150px; /* Makes the thumb much taller */
+  min-height: 150px;
+  /* Makes the thumb much taller */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #666666; /* Slightly lighter on hover */
+  background: #666666;
+  /* Slightly lighter on hover */
 }
 
 ::-webkit-scrollbar-corner {
@@ -72,4 +79,118 @@ body{
 body {
   -ms-overflow-style: scrollbar;
   overflow-x: hidden;
+}
+
+.pagination .page-item .page-link {
+  background-color: #3D3D3D;
+  color: var(--color-white-smoke);
+  border: 1px solid #555;
+  border-radius: 6px;
+  margin: 0 2px;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.pagination .page-item.disabled .page-link {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* editor css */
+.ProseMirror:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #9b87f5; /* subtle purple border */
+}
+/* Base editor background */
+.ProseMirror {
+  background: #201f27; /* same as your site theme */
+  color: #f8f8f2;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 300px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Code block background */
+.ProseMirror pre {
+  background: #1e1e1e;
+  color: #f8f8f2;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: "Fira Code", monospace;
+  overflow-x: auto;
+}
+
+/* Heading background (example for h2) */
+.ProseMirror h2 {
+  background: rgba(155, 135, 245, 0.1); /* subtle purple tint */
+  padding: 6px 10px;
+  border-left: 4px solid #9b87f5;
+  border-radius: 4px;
+  color: #e0d7ff;
+  margin: 12px 0;
+}
+
+/* Bullet list items */
+.ProseMirror ul li {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin: 2px 0;
+}
+
+/* Ordered list items */
+.ProseMirror ol li {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin: 2px 0;
+}
+
+/* Blockquote styling */
+.ProseMirror blockquote {
+  background: rgba(135, 112, 112, 0.008);
+  padding: 12px 16px;
+  border-left: 4px solid #ccc;
+  border-radius: 6px;
+  color: #ddd;
+  margin: 12px 0;
+}
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #aaa;
+}
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+  padding: 0 0.2rem;
+}
+
+.highlight {
+  background-color: yellow;
+  color: black;
 }

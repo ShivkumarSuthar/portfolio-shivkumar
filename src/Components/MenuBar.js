@@ -14,7 +14,7 @@ function MenuBar() {
         {/* Connect Button on the right */}
         <Nav className="ms-auto d-flex">
           <Link
-            href="/learningMaterials"
+            href="/notes-dashboard/learning-materials/list"
             className="nav-link contact-btn"
             title="Learning Materials"
           >
