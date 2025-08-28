@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import "@/styles/globals.css";
 import MenuBar from '@/Components/MenuBar';
 import Footer from '@/Components/Footer';
-
+import 'react-loading-skeleton/dist/skeleton.css'; 
 
 export default function App({ Component, pageProps }) {
   return <>

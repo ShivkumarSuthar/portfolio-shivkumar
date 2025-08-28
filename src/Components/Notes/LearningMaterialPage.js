@@ -11,11 +11,12 @@ import ListItem from "@tiptap/extension-list-item";
 import CodeBlock from "@tiptap/extension-code-block";
 import TextStyle from "@tiptap/extension-text-style";
 import { Mark } from "@tiptap/core";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { useRouter, useParams } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 // Highlight mark
 const Highlight = Mark.create({
@@ -33,8 +34,8 @@ const Highlight = Mark.create({
     return {
       toggleHighlight:
         () =>
-        ({ commands }) =>
-          commands.toggleMark("highlight"),
+          ({ commands }) =>
+            commands.toggleMark("highlight"),
     };
   },
 });
@@ -108,13 +109,13 @@ export default function LearningMaterialPage() {
       setLoading(true);
       const res = await fetch(`/api/learningMaterials/${materialId}`);
       if (!res.ok) throw new Error("Failed to fetch material");
-      
+
       const data = await res.json();
       setInitialValues({
         title: data.title || "",
         description: data.description || "",
       });
-      
+
       const content = data.content || "Type here...";
       setOriginalContent(content);
       editor.commands.setContent(content);
@@ -134,7 +135,7 @@ export default function LearningMaterialPage() {
   // Handle form submission
   const handleSubmit = async (values) => {
     if (!editor) return;
-    
+
     const html = editor.getHTML();
     setSaving(true);
 
@@ -145,10 +146,10 @@ export default function LearningMaterialPage() {
         content: html,
       };
 
-      const url = isEditMode 
+      const url = isEditMode
         ? `/api/learningMaterials/${materialId}`
         : `/api/learningMaterials`;
-      
+
       const method = isEditMode ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -160,7 +161,7 @@ export default function LearningMaterialPage() {
       if (!res.ok) throw new Error("Save failed");
 
       await Swal.fire("Success", "Learning material saved successfully!", "success");
-      
+
       if (!isEditMode) {
         router.push("/notes-dashboard/learning-materials/list");
       }
@@ -198,7 +199,7 @@ export default function LearningMaterialPage() {
   // Render toolbar button
   const renderToolbarButton = (btn, idx) => {
     const isActive = btn.actionName ? editor?.isActive(btn.actionName) : false;
-    
+
     return (
       <button
         key={idx}
@@ -216,85 +217,100 @@ export default function LearningMaterialPage() {
     );
   };
 
-  if (loading && isEditMode) {
-    return (
-      <Container fluid className="learning-material-wrapper">
-        <div className="loading-container">
-          Loading material...
-        </div>
-      </Container>
-    );
-  }
+
 
   return (
-    <Container fluid className="learning-material-wrapper">
-      <h2 className="title">
-        {isEditMode ? "Edit Learning Material" : "Add Learning Material"}
-      </h2>
-      <p className="subtitle">
-        Fill in the details and add your notes, code examples, or lists.
-      </p>
+    loading && isEditMode ? (
+      <Container fluid className="learning-material-wrapper">
+        <SkeletonTheme baseColor="#ddd" highlightColor="#eee">
+          <Row className="my-5 justify-content-center">
+            <Col md={8}>
+              {/* Label skeleton */}
+              <Skeleton height={20} width="40%" className="mb-2" />
+              {/* Input box skeleton */}
+              <Skeleton height={40} className="mb-4" />
 
-      <Formik
-        enableReinitialize
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched, resetForm }) => (
-          <Form>
-            <Field
-              name="title"
-              placeholder="Learning Material Name"
-              className="input-field"
-            />
-            {errors.title && touched.title && (
-              <div className="error-message">{errors.title}</div>
-            )}
+              {/* Another label + input */}
+              <Skeleton height={20} width="35%" className="mb-2" />
+              <Skeleton height={40} className="mb-4" />
 
-            <Field
-              as="textarea"
-              name="description"
-              placeholder="Description"
-              rows={3}
-              className="input-field"
-            />
+              {/* Submit button skeleton */}
+              <div className="text-end">
+                <Skeleton height={40} width="25%" />
+              </div>
+            </Col>
+          </Row>
+        </SkeletonTheme>
+      </Container>
+    ) : (
+      <Container fluid className="learning-material-wrapper">
+        <h2 className="title">
+          {isEditMode ? "Edit Learning Material" : "Add Learning Material"}
+        </h2>
+        <p className="subtitle">
+          Fill in the details and add your notes, code examples, or lists.
+        </p>
 
-            <div className="editor-container">
-              {/* Toolbar */}
-              <div className="editor-toolbar">
-                {editor && toolbarButtons.map(renderToolbarButton)}
+        <Formik
+          enableReinitialize
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched, resetForm }) => (
+            <Form>
+              <Field
+                name="title"
+                placeholder="Learning Material Name"
+                className="input-field"
+              />
+              {errors.title && touched.title && (
+                <div className="error-message">{errors.title}</div>
+              )}
+
+              <Field
+                as="textarea"
+                name="description"
+                placeholder="Description"
+                rows={3}
+                className="input-field"
+              />
+
+              <div className="editor-container">
+                {/* Toolbar */}
+                <div className="editor-toolbar">
+                  {editor && toolbarButtons.map(renderToolbarButton)}
+                </div>
+
+                {/* Editor with scroll */}
+                <div className="editor-content-wrapper">
+                  <EditorContent
+                    editor={editor}
+                    spellCheck={false}
+                  />
+                </div>
               </div>
 
-              {/* Editor with scroll */}
-              <div className="editor-content-wrapper">
-                <EditorContent 
-                  editor={editor} 
-                  spellCheck={false}
-                />
+              <div className="form-actions">
+                <button
+                  type="submit"
+                  disabled={loading || saving}
+                  className={`btn-save ${(loading || saving) ? 'loading' : ''}`}
+                >
+                  {(loading || saving) ? "Saving..." : "Save Material"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCancel(resetForm)}
+                  disabled={loading || saving}
+                  className="btn-cancel"
+                >
+                  Cancel
+                </button>
               </div>
-            </div>
-
-            <div className="form-actions">
-              <button
-                type="submit"
-                disabled={loading || saving}
-                className={`btn-save ${(loading  || saving) ? 'loading' : ''}`}
-              >
-                {(loading  || saving) ? "Saving..." : "Save Material"}
-              </button>
-              <button
-                type="button"
-                onClick={() => handleCancel(resetForm)}
-                disabled={loading || saving}
-                className="btn-cancel"
-              >
-                Cancel
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </Container>
+            </Form>
+          )}
+        </Formik>
+      </Container>)
   );
 }

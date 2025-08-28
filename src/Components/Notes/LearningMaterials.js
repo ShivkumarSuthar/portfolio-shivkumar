@@ -5,6 +5,7 @@ import Footer from '@/Components/Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import Swal from 'sweetalert2';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 export default function LearningMaterials() {
   const [subjects, setSubjects] = useState([]);
@@ -271,14 +272,16 @@ export default function LearningMaterials() {
 
         {/* Loading state */}
         {loading && (
-          <Row>
-            <Col className="text-center py-5">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <p className="mt-3 text-muted">Loading materials...</p>
-            </Col>
-          </Row>
+          <SkeletonTheme baseColor="#262323ff" highlightColor="#363333ff">
+            <div className="learning-materials-grid d-flex gap-1">
+              {Array(4).fill().map((_, index) => (
+                <div key={index} className="learning-material-box gap-2">
+                  <Skeleton height={250} width={290} borderRadius={8} />
+                  <Skeleton height={250} width={290} borderRadius={8} />
+                </div>
+              ))}
+            </div>
+          </SkeletonTheme>
         )}
 
         {/* Content */}
