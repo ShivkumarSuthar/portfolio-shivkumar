@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
@@ -39,13 +39,27 @@ const Highlight = Mark.create({
   },
 });
 
+// Validation schema
+const validationSchema = Yup.object({
+  title: Yup.string().required("Please enter a name for the learning material."),
+  description: Yup.string(),
+});
+
 export default function LearningMaterialPage() {
-  const [_, setUpdate] = useState(0);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const params = useParams();
   const materialId = params?.slug?.[1] || null;
+  const isEditMode = materialId && materialId !== "add";
 
+  // Initial form values
+  const [initialValues, setInitialValues] = useState({
+    title: "",
+    description: "",
+  });
+  const [originalContent, setOriginalContent] = useState("");
+
+  // Editor configuration
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -59,80 +73,67 @@ export default function LearningMaterialPage() {
       CodeBlock,
       Highlight,
     ],
-    content: "type here...",
+    content: "Type here...",
     immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+      },
+    },
   });
 
-  // Refresh UI when editor updates
-  useEffect(() => {
-    if (!editor) return;
-    const updateListener = () => setUpdate((u) => u + 1);
-    editor.on("update", updateListener);
-    editor.on("selectionUpdate", updateListener);
-    return () => {
-      editor.off("update", updateListener);
-      editor.off("selectionUpdate", updateListener);
-    };
-  }, [editor]);
+  // Memoized toolbar buttons
+  const toolbarButtons = useMemo(() => [
+    { label: "B", actionName: "bold", action: () => editor?.chain().focus().toggleBold().run(), title: "Bold" },
+    { label: "I", actionName: "italic", action: () => editor?.chain().focus().toggleItalic().run(), title: "Italic" },
+    { label: "H", actionName: "highlight", action: () => editor?.chain().focus().toggleMark("highlight").run(), title: "Highlight" },
+    { label: "• List", actionName: "bulletList", action: () => editor?.chain().focus().toggleBulletList().run(), title: "Bullet List" },
+    { label: "1. List", actionName: "orderedList", action: () => editor?.chain().focus().toggleOrderedList().run(), title: "Ordered List" },
+    { label: "</>", actionName: "codeBlock", action: () => editor?.chain().focus().toggleCodeBlock().run(), title: "Code Block" },
+    { label: "H1", actionName: "heading1", action: () => editor?.chain().focus().toggleHeading({ level: 1 }).run(), title: "Heading 1" },
+    { label: "H2", actionName: "heading2", action: () => editor?.chain().focus().toggleHeading({ level: 2 }).run(), title: "Heading 2" },
+    { label: "H3", actionName: "heading3", action: () => editor?.chain().focus().toggleHeading({ level: 3 }).run(), title: "Heading 3" },
+    { label: "¶", actionName: "paragraph", action: () => editor?.chain().focus().setParagraph().run(), title: "Paragraph" },
+    { iconClass: "fas fa-eraser", actionName: null, action: () => editor?.chain().focus().clearNodes().unsetAllMarks().run(), title: "Clear" },
+    { label: "↺", actionName: null, action: () => editor?.chain().focus().undo().run(), title: "Undo" },
+    { label: "↻", actionName: null, action: () => editor?.chain().focus().redo().run(), title: "Redo" },
+  ], [editor]);
 
-  // Initial form values
-  const [initialValues, setInitialValues] = useState({
-    title: "",
-    description: "",
-  });
-  const [content, setContent] = useState("");
+  // Fetch material data for edit mode
+  const fetchMaterial = useCallback(async () => {
+    if (!isEditMode || !editor) return;
 
-  // If in edit mode → fetch material and prefill
-  useEffect(() => {
-    if (!materialId || !editor || materialId === "add") return;
-
-    async function fetchMaterial() {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/learningMaterials/${materialId}`);
-        if (!res.ok) throw new Error("Failed to fetch material");
-        const data = await res.json();
-        setInitialValues({
-          title: data.title || "",
-          description: data.description || "",
-        });
-        setContent()
-        editor.commands.setContent(data.content || "");
-      } catch (err) {
-        console.error(err);
-        Swal.fire("Error", "Error loading material", "error");
-      } finally {
-        setLoading(false);
-      }
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/learningMaterials/${materialId}`);
+      if (!res.ok) throw new Error("Failed to fetch material");
+      
+      const data = await res.json();
+      setInitialValues({
+        title: data.title || "",
+        description: data.description || "",
+      });
+      
+      const content = data.content || "Type here...";
+      setOriginalContent(content);
+      editor.commands.setContent(content);
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "Error loading material", "error");
+    } finally {
+      setLoading(false);
     }
+  }, [materialId, editor, isEditMode]);
 
+  // Effects
+  useEffect(() => {
     fetchMaterial();
-  }, [materialId, editor]);
+  }, [fetchMaterial]);
 
-  const buttons = [
-    { label: "B", actionName: "bold", action: () => editor.chain().focus().toggleBold().run(), title: "Bold" },
-    { label: "I", actionName: "italic", action: () => editor.chain().focus().toggleItalic().run(), title: "Italic" },
-    { label: "• List", actionName: "bulletList", action: () => editor.chain().focus().toggleBulletList().run(), title: "Bullet List" },
-    { label: "1. List", actionName: "orderedList", action: () => editor.chain().focus().toggleOrderedList().run(), title: "Ordered List" },
-    { label: "</>", actionName: "codeBlock", action: () => editor.chain().focus().toggleCodeBlock().run(), title: "Code Block" },
-    { label: "H1", actionName: "heading1", action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(), title: "Heading 1" },
-    { label: "H2", actionName: "heading2", action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(), title: "Heading 2" },
-    { label: "H3", actionName: "heading3", action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(), title: "Heading 3" },
-    { label: "¶", actionName: "paragraph", action: () => editor.chain().focus().setParagraph().run(), title: "Paragraph" },
-    { iconClass: "fas fa-eraser", actionName: null, action: () => editor.chain().focus().clearNodes().unsetAllMarks().run(), title: "Clear" },
-    { label: "↺", actionName: null, action: () => editor.chain().focus().undo().run(), title: "Undo" },
-    { label: "↻", actionName: null, action: () => editor.chain().focus().redo().run(), title: "Redo" },
-  ];
-
-
-
-
-  const validationSchema = Yup.object({
-    title: Yup.string().required("Please enter a name for the learning material."),
-    description: Yup.string(),
-  });
-
+  // Handle form submission
   const handleSubmit = async (values) => {
+    if (!editor) return;
+    
     const html = editor.getHTML();
     setLoading(true);
 
@@ -143,26 +144,25 @@ export default function LearningMaterialPage() {
         content: html,
       };
 
-      let res;
-      if (materialId && materialId !== "add") {
-        res = await fetch(`/api/learningMaterials/${materialId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      } else {
-        res = await fetch(`/api/learningMaterials`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      }
+      const url = isEditMode 
+        ? `/api/learningMaterials/${materialId}`
+        : `/api/learningMaterials`;
+      
+      const method = isEditMode ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       if (!res.ok) throw new Error("Save failed");
 
-      Swal.fire("Success", "Learning material saved successfully!", "success").then(() => {
+      await Swal.fire("Success", "Learning material saved successfully!", "success");
+      
+      if (!isEditMode) {
         router.push("/notes-dashboard/learning-materials/list");
-      });
+      }
     } catch (err) {
       console.error(err);
       Swal.fire("Error", "Error saving material", "error");
@@ -171,6 +171,7 @@ export default function LearningMaterialPage() {
     }
   };
 
+  // Handle cancel action
   const handleCancel = (resetForm) => {
     Swal.fire({
       title: "Cancel changes?",
@@ -182,24 +183,54 @@ export default function LearningMaterialPage() {
       confirmButtonText: "Yes, clear it",
     }).then((result) => {
       if (result.isConfirmed) {
-
-        if(materialId == "create"){
-            history.back();
-        }else{
-            editor.commands.setContent(content || "");
-            resetForm();
-            Swal.fire("Cleared!", "All content has been removed.", "success");
+        if (!isEditMode) {
+          history.back();
+        } else {
+          editor?.commands.setContent(originalContent || "Type here...");
+          resetForm();
+          Swal.fire("Cleared!", "All content has been restored.", "success");
         }
-    }
+      }
     });
   };
 
+  // Render toolbar button
+  const renderToolbarButton = (btn, idx) => {
+    const isActive = btn.actionName ? editor?.isActive(btn.actionName) : false;
+    
+    return (
+      <button
+        key={idx}
+        type="button"
+        onClick={btn.action}
+        title={btn.title}
+        className={`toolbar-button ${isActive ? 'active' : ''}`}
+      >
+        {btn.iconClass ? (
+          <i className={btn.iconClass}></i>
+        ) : (
+          <span>{btn.label}</span>
+        )}
+      </button>
+    );
+  };
+
+  if (loading && isEditMode) {
+    return (
+      <Container fluid className="learning-material-wrapper">
+        <div className="loading-container">
+          Loading material...
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container fluid className="learning-material-wrapper">
-      <h2 style={{ marginBottom: "10px", color: "#e0d7ff" }}>
-        {materialId && materialId !== "add" ? "Edit Learning Material" : "Add Learning Material"}
+      <h2 className="title">
+        {isEditMode ? "Edit Learning Material" : "Add Learning Material"}
       </h2>
-      <p style={{ marginBottom: "20px", color: "#aaa" }}>
+      <p className="subtitle">
         Fill in the details and add your notes, code examples, or lists.
       </p>
 
@@ -217,7 +248,7 @@ export default function LearningMaterialPage() {
               className="input-field"
             />
             {errors.title && touched.title && (
-              <div style={{ color: "red", marginBottom: "10px" }}>{errors.title}</div>
+              <div className="error-message">{errors.title}</div>
             )}
 
             <Field
@@ -228,84 +259,34 @@ export default function LearningMaterialPage() {
               className="input-field"
             />
 
-           
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                marginBottom: "16px",
-                marginTop: "20px",
-              }}
-            >
-              {editor &&
-                buttons.map((btn, idx) => {
-                  const isActive = btn.actionName ? editor.isActive(btn.actionName) : false;
-                  return (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={btn.action}
-                      title={btn.title}
-                      style={{
-                        minWidth: "40px",
-                        height: "40px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "8px",
-                        border: "1px solid #444",
-                        background: isActive ? "#6b46c1" : "#2e2e2e",
-                        color: isActive ? "white" : "#ddd",
-                        cursor: "pointer",
-                        fontSize: "16px",
-                        padding: "0 8px",
-                      }}
-                    >
-                      {/* Render icon if available, otherwise label */}
-                      {btn.iconClass ? (
-                        <i className={btn.iconClass}></i>
-                      ) : btn.label ? (
-                        <span>{btn.label}</span>
-                      ) : null}
-                    </button>
-                  );
-                })}
+            <div className="editor-container">
+              {/* Toolbar */}
+              <div className="editor-toolbar">
+                {editor && toolbarButtons.map(renderToolbarButton)}
+              </div>
+
+              {/* Editor with scroll */}
+              <div className="editor-content-wrapper">
+                <EditorContent 
+                  editor={editor} 
+                  spellCheck={false}
+                />
+              </div>
             </div>
 
-
-            <EditorContent editor={editor} spellCheck={false} />
-
-            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <div className="form-actions">
               <button
                 type="submit"
                 disabled={loading}
-                style={{
-                  padding: "10px 20px",
-                  background: "#4caf50",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                  opacity: loading ? 0.6 : 1,
-                }}
+                className={`btn-save ${loading ? 'loading' : ''}`}
               >
-                {loading ? "Saving..." : "Save"}
+                {loading ? "Saving..." : "Save Material"}
               </button>
               <button
                 type="button"
                 onClick={() => handleCancel(resetForm)}
                 disabled={loading}
-                style={{
-                  padding: "10px 20px",
-                  background: "#f44336",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontWeight: "bold",
-                }}
+                className="btn-cancel"
               >
                 Cancel
               </button>

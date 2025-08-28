@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Pagination } from 'react-bootstrap';
 import MenuBar from '@/Components/MenuBar';
 import Footer from '@/Components/Footer';
@@ -10,49 +10,119 @@ export default function LearningMaterials() {
   const [subjects, setSubjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [subjectsPerPage, setSubjectsPerPage] = useState(6); 
+  // Handle search with debouncing to avoid too many API calls
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+      setCurrentPage(1); // Reset to first page when searching
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Handle filter change
+  const handleFilterChange = useCallback((newFilter) => {
+    setFilter(newFilter);
+    setCurrentPage(1); // Reset to first page when filtering
+  }, []);
   const [filter, setFilter] = useState("");
   const [totalPages, setTotalPages] = useState(1);
+  const [totalData, setTotalData] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        const res = await fetch(`/api/learningMaterials?page=${currentPage}&limit=${subjectsPerPage}`);
-        const json = await res.json();
-        setSubjects(json.data);
-        setTotalPages(json.totalPages);
-      } catch (err) {
-        console.error("Failed to load materials", err);
-      }
-    };
-    fetchMaterials();
-  }, [currentPage, subjectsPerPage]);
-
-  // Update note counts for each subject
-  useEffect(() => {
-    const updateNoteCounts = () => {
-      const updatedSubjects = subjects.map(subject => {
-        const subjectNotes = localStorage.getItem(`notes_${subject.id}`) || '[]';
-        const noteCount = JSON.parse(subjectNotes).length;
-        return { ...subject, noteCount };
+  // Fetch materials with proper error handling and loading state
+  const fetchMaterials = useCallback(async () => {
+    setLoading(true);
+    try {
+      // Include search and filter params in API call for server-side filtering
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: subjectsPerPage.toString(),
+        ...(searchQuery && { search: searchQuery }),
+        ...(filter && { filter: filter })
       });
-      setSubjects(updatedSubjects);
-    };
-
-    if (subjects.length > 0) {
-      updateNoteCounts();
+      
+      const res = await fetch(`/api/learningMaterials?${params}`);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const json = await res.json();
+      
+      console.log('API Response:', json); // Debug log
+      
+      // Ensure we have valid data structure
+      if (json && Array.isArray(json.data)) {
+        setSubjects(json.data);
+        setTotalPages(json.totalPages || 1);
+        setTotalData(json.totalItems || 0);
+      } else {
+        console.warn('Invalid data structure received:', json);
+        setSubjects([]);
+        setTotalPages(1);
+        setTotalData(0);
+      }
+    } catch (err) {
+      console.error("Failed to load materials", err);
+      // Show user-friendly error message
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to load learning materials. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      setSubjects([]);
+    } finally {
+      setLoading(false);
     }
-  }, [subjects.length]);
+  }, [currentPage, subjectsPerPage, debouncedSearchQuery, filter]);
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+  // Initial fetch and when dependencies change
+  useEffect(() => {
+    fetchMaterials();
+  }, [fetchMaterials]);
 
-  const getColorClass = (color) => {
+  // Since we're doing server-side pagination, we don't need client-side filtering
+  // The subjects array is already the filtered and paginated result from the server
+  const displaySubjects = useMemo(() => {
+    if (!Array.isArray(subjects)) return [];
+    return subjects;
+  }, [subjects]);
+
+  // Memoized pagination calculations based on server response
+  const paginationData = useMemo(() => {
+    const startIndex = (currentPage - 1) * subjectsPerPage;
+    const endIndex = Math.min(startIndex + displaySubjects.length, startIndex + subjectsPerPage);
+    
+    return {
+      startIndex,
+      endIndex,
+      totalFilteredPages: totalPages,
+      currentSubjects: displaySubjects // Use subjects directly as they're already paginated
+    };
+  }, [displaySubjects, currentPage, subjectsPerPage, totalPages]);
+
+  // If you want to populate the filter dropdown, you should fetch available filters from the server
+  // For now, I'll remove the unique subjects logic and use a simple predefined list
+
+  // Format date function
+  const formatDate = useCallback((dateString) => {
+    if (!dateString) return 'Unknown';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Invalid Date';
+    }
+  }, []);
+
+  // Get color class function
+  const getColorClass = useCallback((color) => {
     const colorMap = {
       primary: 'bg-primary',
       success: 'bg-success',
@@ -62,10 +132,11 @@ export default function LearningMaterials() {
       danger: 'bg-danger'
     };
     return colorMap[color] || 'bg-primary';
-  };
+  }, []);
 
-  const handleDeleteSubject = async (id) => {
-    Swal.fire({
+  // Handle delete subject
+  const handleDeleteSubject = useCallback(async (id) => {
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "This will permanently delete the subject!",
       icon: "warning",
@@ -73,36 +144,71 @@ export default function LearningMaterials() {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!"
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await fetch(`http://localhost:3000/api/learningMaterials/${id}`, {
-            method: "DELETE",
-          });
-
-          if (res.ok) {
-            Swal.fire("Deleted!", "The subject has been deleted.", "success");
-            setSubjects((prev) => prev.filter((s) => s._id !== id));
-          } else {
-            Swal.fire("Error", "Failed to delete the subject.", "error");
-          }
-        } catch (error) {
-          Swal.fire("Error", "Something went wrong.", "error");
-          console.error(error);
-        }
-      }
     });
-  };
 
-  // Filter subjects dynamically without extra state
-  const filteredSubjects = subjects.filter((subject) => {
-    const matchesSearch = subject.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = filter === "" || subject.title === filter;
-    return matchesSearch && matchesFilter;
-  });
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`/api/learningMaterials/${id}`, {
+          method: "DELETE",
+        });
 
-  const startIndex = (currentPage - 1) * subjectsPerPage;
-  const endIndex = Math.min(currentPage * subjectsPerPage, filteredSubjects.length);
+        if (res.ok) {
+          await Swal.fire("Deleted!", "The subject has been deleted.", "success");
+          // Remove from local state
+          setSubjects(prev => prev.filter(s => s._id !== id));
+          // If current page becomes empty, go to previous page
+          if (paginationData.currentSubjects.length === 1 && currentPage > 1) {
+            setCurrentPage(prev => prev - 1);
+          }
+        } else {
+          throw new Error('Failed to delete');
+        }
+      } catch (error) {
+        console.error(error);
+        await Swal.fire("Error", "Failed to delete the subject.", "error");
+      }
+    }
+  }, [paginationData.currentSubjects.length, currentPage]);
+
+  // Handle page change
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+  }, []);
+
+  // Handle items per page change
+  const handleItemsPerPageChange = useCallback((e) => {
+    setSubjectsPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page
+  }, []);
+
+  // Generate pagination items
+  const paginationItems = useMemo(() => {
+    const items = [];
+    const totalPages = Math.ceil(totalData / subjectsPerPage);
+    
+    // Show max 5 pages at a time
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    
+    // Adjust start if we're near the end
+    if (endPage - startPage < 4) {
+      startPage = Math.max(1, endPage - 4);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      items.push(
+        <Pagination.Item
+          key={i}
+          active={i === currentPage}
+          onClick={() => handlePageChange(i)}
+        >
+          {i}
+        </Pagination.Item>
+      );
+    }
+    
+    return items;
+  }, [currentPage, totalData, subjectsPerPage, handlePageChange]);
 
   return (
     <>
@@ -122,7 +228,6 @@ export default function LearningMaterials() {
             </p>
           </Col>
 
-
           <Col lg={6}>
             <div className="d-flex justify-content-lg-end align-items-center gap-2">
               {/* Search input */}
@@ -140,14 +245,13 @@ export default function LearningMaterials() {
                 className="form-select form-select-lg"
                 style={{ maxWidth: '150px', height: "46px" }}
                 value={filter}
-                onChange={(e) => setFilter(e.target.value)}
+                onChange={(e) => handleFilterChange(e.target.value)}
               >
                 <option value="">All</option>
-                {subjects.map((subject) => (
-                  <option key={subject._id} value={subject.title}>
-                    {subject.title}
-                  </option>
-                ))}
+                {/* You should fetch filter options from your API */}
+                <option value="programming">Programming</option>
+                <option value="design">Design</option>
+                <option value="mathematics">Mathematics</option>
               </select>
 
               {/* Add button */}
@@ -163,129 +267,148 @@ export default function LearningMaterials() {
               </Link>
             </div>
           </Col>
-
         </Row>
 
-        <Row className="g-4">
-          {filteredSubjects
-            .slice(startIndex, endIndex)
-            .map((subject) => (
-              <Col key={subject.id} lg={4} md={6}>
-                <Card className="subject-card h-100">
-                  <Card.Body className="d-flex flex-column">
-                    <div className="d-flex align-items-center mb-3">
-                      <div className={`subject-icon ${getColorClass(subject.color)} me-3`}>
-                        <i className="fa-solid fa-book fa-2x text-white"></i>
-                      </div>
-                      <div className="flex-grow-1">
-                        <h5 className="card-title mb-1">{subject.title}</h5>
-                      </div>
-                    </div>
-
-                    <p className="card-text text-muted flex-grow-1">
-                      {subject.description}
-                    </p>
-
-                    <div className="mt-auto">
-                      <div className="d-flex justify-content-between align-items-center mb-3">
-                        <small className="text-muted">
-                          <i className="fas fa-clock me-1"></i>
-                          Updated {formatDate(subject.updatedAt )}
-                        </small>
-                      </div>
-
-                      <div className="d-flex gap-2 mt-3">
-                        <Link href={`/notes-dashboard/learning-materials/${subject._id}`} passHref>
-                          <Button
-                            variant="warning"
-                            size="sm"
-                            className="px-3 py-2 rounded d-flex align-items-center"
-                          >
-                            <i className="fas fa-folder me-2"></i>
-                            Open
-                          </Button>
-                        </Link>
-
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          className="px-3 py-2 rounded d-flex align-items-center"
-                          onClick={() => handleDeleteSubject(subject._id)}
-                        >
-                          <i className="fas fa-trash me-2"></i>
-                          Remove
-                        </Button>
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-        </Row>
-
-        {filteredSubjects.length > 0 && (
-          <div className="mt-4 p-3 rounded ">
-            <div className="d-flex flex-column align-items-center gap-3">
-
-              {/* Top: Showing info and dropdown */}
-              <div className="d-flex flex-wrap justify-content-center align-items-center gap-3 text-light">
-                <span>
-                  Showing <strong>{startIndex + 1}</strong> – <strong>{endIndex}</strong> of <strong>{filteredSubjects.length}</strong>
-                </span>
-                <div className="d-flex align-items-center gap-2">
-                  <label htmlFor="perPage" className="mb-0">Items per page:</label>
-                  <select
-                    id="perPage"
-                    className="form-select form-select-sm bg-dark text-light border-secondary"
-                    style={{ width: 'auto' }}
-                    value={subjectsPerPage}
-                    onChange={(e) => {
-                      setSubjectsPerPage(Number(e.target.value));
-                      setCurrentPage(1);
-                    }}
-                  >
-                    {Array.from({ length: Math.ceil(filteredSubjects.length / 6) }, (_, i) => (i + 1) * 6)
-                      .map(size => (
-                        <option key={size} value={size}>{size}</option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Bottom: Pagination */}
-              <Pagination size="sm" className="mb-0">
-                <Pagination.Prev
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                />
-                {[...Array(Math.ceil(filteredSubjects.length / subjectsPerPage)).keys()].map(num => (
-                  <Pagination.Item
-                    key={num + 1}
-                    active={num + 1 === currentPage}
-                    onClick={() => setCurrentPage(num + 1)}
-                  >
-                    {num + 1}
-                  </Pagination.Item>
-                ))}
-                <Pagination.Next
-                  disabled={currentPage === Math.ceil(filteredSubjects.length / subjectsPerPage)}
-                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredSubjects.length / subjectsPerPage)))}
-                />
-              </Pagination>
-            </div>
-          </div>
-        )}
-
-        {filteredSubjects.length === 0 && (
+        {/* Loading state */}
+        {loading && (
           <Row>
-            <Col>
-              <div className="text-center py-5">
-                <i className="fas fa-book-open fa-4x text-muted mb-4"></i>
-                <h3 className="text-muted">No learning materials found</h3>
-                <p className="text-muted mb-4">Try changing your search or filter</p>
+            <Col className="text-center py-5">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
               </div>
+              <p className="mt-3 text-muted">Loading materials...</p>
             </Col>
           </Row>
+        )}
+
+        {/* Content */}
+        {!loading && (
+          <>
+            <Row className="g-4">
+              {paginationData.currentSubjects.map((subject) => (
+                <Col key={subject._id} lg={4} md={6}>
+                  <Card className="subject-card h-100">
+                    <Card.Body className="d-flex flex-column">
+                      <div className="d-flex align-items-center mb-3">
+                        <div className={`subject-icon ${getColorClass(subject.color)} me-3`}>
+                          <i className="fa-solid fa-book fa-2x text-white"></i>
+                        </div>
+                        <div className="flex-grow-1">
+                          <h5 className="card-title mb-1">{subject.title || 'Untitled'}</h5>
+                        </div>
+                      </div>
+
+                      <p className="card-text text-muted flex-grow-1">
+                        {subject.description || 'No description available'}
+                      </p>
+
+                      <div className="mt-auto">
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                          <small className="text-muted">
+                            <i className="fas fa-clock me-1"></i>
+                            Updated {formatDate(subject.updatedAt)}
+                          </small>
+                        </div>
+
+                        <div className="d-flex gap-2 mt-3">
+                          <Link href={`/notes-dashboard/learning-materials/${subject._id}`} passHref>
+                            <Button
+                              variant="warning"
+                              size="sm"
+                              className="px-3 py-2 rounded d-flex align-items-center"
+                            >
+                              <i className="fas fa-folder me-2"></i>
+                              Open
+                            </Button>
+                          </Link>
+
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            className="px-3 py-2 rounded d-flex align-items-center"
+                            onClick={() => handleDeleteSubject(subject._id)}
+                          >
+                            <i className="fas fa-trash me-2"></i>
+                            Remove
+                          </Button>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+
+            {/* Pagination - only show if we have data */}
+            {displaySubjects.length > 0 && totalPages > 1 && (
+              <div className="mt-4 p-3 rounded">
+                <div className="d-flex flex-column align-items-center gap-3">
+                  {/* Top: Showing info and dropdown */}
+                  <div className="d-flex flex-wrap justify-content-center align-items-center gap-3 text-light">
+                    <span>
+                      Showing <strong>{paginationData.startIndex + 1}</strong> – <strong>{paginationData.endIndex}</strong> of <strong>{totalData}</strong>
+                    </span>
+                    <div className="d-flex align-items-center gap-2">
+                      <label htmlFor="perPage" className="mb-0">Items per page:</label>
+                      <select
+                        id="perPage"
+                        className="form-select form-select-sm bg-dark text-light border-secondary"
+                        style={{ width: 'auto' }}
+                        value={subjectsPerPage}
+                        onChange={handleItemsPerPageChange}
+                      >
+                        <option value={6}>6</option>
+                        <option value={12}>12</option>
+                        <option value={18}>18</option>
+                        <option value={24}>24</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Bottom: Pagination */}
+                  {Math.ceil(totalData / subjectsPerPage) > 1 && (
+                    <Pagination size="sm" className="mb-0">
+                      <Pagination.Prev
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                      />
+                      {paginationItems}
+                      <Pagination.Next
+                        disabled={currentPage === Math.ceil(totalData / subjectsPerPage)}
+                        onClick={() => handlePageChange(Math.min(currentPage + 1, Math.ceil(totalData / subjectsPerPage)))}
+                      />
+                    </Pagination>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Empty state */}
+            {displaySubjects.length === 0 && !loading && (
+              <Row>
+                <Col>
+                  <div className="text-center py-5">
+                    <i className="fas fa-book-open fa-4x text-muted mb-4"></i>
+                    <h3 className="text-muted">No learning materials found</h3>
+                    <p className="text-muted mb-4">
+                      {debouncedSearchQuery || filter ? 
+                        'Try changing your search or filter' : 
+                        'Get started by creating your first learning material'
+                      }
+                    </p>
+                    {!debouncedSearchQuery && !filter && (
+                      <Link href="/notes-dashboard/learning-materials/add" passHref>
+                        <Button variant="primary">
+                          <i className="fas fa-plus me-2"></i>
+                          Create First Material
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                </Col>
+              </Row>
+            )}
+          </>
         )}
       </Container>
     </>
