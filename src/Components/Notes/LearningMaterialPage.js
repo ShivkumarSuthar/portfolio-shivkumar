@@ -51,6 +51,7 @@ export default function LearningMaterialPage() {
   const params = useParams();
   const materialId = params?.slug?.[1] || null;
   const isEditMode = materialId && materialId !== "add";
+  const [saving, setSaving] = useState(false);
 
   // Initial form values
   const [initialValues, setInitialValues] = useState({
@@ -135,7 +136,7 @@ export default function LearningMaterialPage() {
     if (!editor) return;
     
     const html = editor.getHTML();
-    setLoading(true);
+    setSaving(true);
 
     try {
       const payload = {
@@ -167,7 +168,7 @@ export default function LearningMaterialPage() {
       console.error(err);
       Swal.fire("Error", "Error saving material", "error");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -277,15 +278,15 @@ export default function LearningMaterialPage() {
             <div className="form-actions">
               <button
                 type="submit"
-                disabled={loading}
-                className={`btn-save ${loading ? 'loading' : ''}`}
+                disabled={loading || saving}
+                className={`btn-save ${(loading  || saving) ? 'loading' : ''}`}
               >
-                {loading ? "Saving..." : "Save Material"}
+                {(loading  || saving) ? "Saving..." : "Save Material"}
               </button>
               <button
                 type="button"
                 onClick={() => handleCancel(resetForm)}
-                disabled={loading}
+                disabled={loading || saving}
                 className="btn-cancel"
               >
                 Cancel
