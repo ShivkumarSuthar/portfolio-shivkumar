@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url('../../public/font/Hertical Sans.ttf');
+}
+
+/* =====================
+   Ultra-Thin Dark Scrollbar
+   ===================== */
+::-webkit-scrollbar {
+  width: 3px;
+  /* super thin */
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* hidden track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  /* thumb color */
+  border-radius: 10px;
+  /* rounded box */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+  /* subtle hover */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+}
+
+/* =====================
+   Global
+   ===================== */
+body {
+  font-family: "Fira Code", monospace;
+}
+
+.skill__div {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: clamp(12px, 2vw, 20px);
+  background: linear-gradient(145deg, #1a1a1a, #222);
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.skill__div:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+  border-color: #666;
+}
+
+.main__content__wrapper {
+  padding: clamp(8px, 2vw, 20px) clamp(15px, 5vw, 32px);
+}
+
+/* =====================
+   Hero Section
+   ===================== */
+.hero__section__wrapper .title__text1,
+.hero__section__wrapper .title__text2 {
+  font-size: clamp(24px, 7.6vw, 100px);
+  font-weight: 500;
+  line-height: 1.1;
+
+}
+
+.hero__section__wrapper .description__text1 p {
+  font-style: italic;
+  font-size: clamp(13px, 2.5vw, 25px);
+  color: #A3A3A3;
+}
+
+.hero__section__wrapper .live__project__button {
+  width: clamp(24px, 4vw, 30px);
+  height: clamp(24px, 4vw, 30px);
+  padding: 0;
+  min-width: clamp(24px, 4vw, 30px);
+  min-height: clamp(24px, 4vw, 30px);
+  border-radius: 50%;
+  background: gray;
+  border: 1px solid #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero__section__wrapper .live__project__button span {
+  margin: 0;
+  color: #121212;
+}
+
+.hero__section__wrapper .description__text2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero__section__wrapper .description__text2 p,
+.hero__section__wrapper .highlighted__text {
+  font-size: clamp(13px, 2.5vw, 24px);
+  font-weight: 300;
+  line-height: 150%;
+}
+
+.hero__section__wrapper .highlighted__text {
+  color: #fff;
+  font-weight: 300;
+}
+
+/* =====================
+   Social Buttons
+   ===================== */
+.social__btn {
+  display: flex;
+  gap: clamp(15px, 5vw, 40px);
+}
+
+.social__btn .group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  border-radius: 100vmax;
+  padding: clamp(6px, 1.5vw, 10px) clamp(12px, 2vw, 20px);
+  border: none;
+}
+
+
+/* edtior css start here */
+.ProseMirror p.is-editor-empty::before {
+  content: attr(data-placeholder);
+  color: #888;
+  /* faded grey */
+  pointer-events: none;
+  height: 0;
+  float: left;
+}
+
+/* Base text */
+.ProseMirror {
+  font-family: Consolas, "Courier New", monospace !important;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #f5f5f5;
+}
+
+/* ========== HEADINGS ========== */
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  color: #e0d7ff;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.2em;
+}
+
+.ProseMirror h1 {
+  font-size: 1.8rem;
+  color: #c084fc;
+  /* purple */
+}
+
+.ProseMirror h2 {
+  font-size: 1.5rem;
+  color: #a78bfa;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25rem;
+  color: #ddd6fe;
+}
+
+/* ========== PARAGRAPH ========== */
+.ProseMirror p {
+  margin: 0.6em 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Empty paragraph placeholder (handled by Placeholder extension) */
+.ProseMirror p.is-editor-empty::before {
+  content: attr(data-placeholder);
+  color: #777;
+  float: left;
+  pointer-events: none;
+  height: 0;
+}
+
+/* ========== INLINE CODE ========== */
+.ProseMirror code {
+  background: #2a2a2a;
+  color: #fbbf24;
+  /* amber */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+/* ========== CODE BLOCK ========== */
+.ProseMirror pre {
+  background: #1f1f1f;
+  color: #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.95rem;
+}
+
+/* ========== BLOCKQUOTE ========== */
+.ProseMirror blockquote {
+  border-left: 4px solid #6b7280;
+  /* gray-500 */
+  color: #9ca3af;
+  /* gray-400 */
+  padding-left: 1em;
+  margin-left: 0;
+  font-style: italic;
+}
+
+/* ========== LISTS ========== */
+.ProseMirror ul,
+.ProseMirror ol {
+  margin: 0.5em 0 0.5em 1.5em;
+  padding-left: 1em;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.3em;
+}
+
+/* Task list checkboxes */
+.ProseMirror .task-list-item {
+  list-style: none;
+}
+
+.ProseMirror .task-list-item input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* ========== HR ========== */
+.ProseMirror hr {
+  border: none;
+  border-top: 1px dashed #555;
+  margin: 1.5em 0;
+}
+
+/* ========== LINKS ========== */
+.ProseMirror a {
+  color: #60a5fa;
+  /* blue-400 */
+  text-decoration: underline;
+}
+
+.ProseMirror a:hover {
+  color: #93c5fd;
+  /* blue-300 */
+}
+
+/* ========== HIGHLIGHT (if using Highlight extension) ========== */
+.ProseMirror mark,
+.highlight {
+  background-color: #fbbf24;
+  color: #000;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+
+/* editro css end here */

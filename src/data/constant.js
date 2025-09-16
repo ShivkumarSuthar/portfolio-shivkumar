@@ -1,37 +1,51 @@
+import { GitHub, LinkedIn, Facebook, Instagram, Code, Description, Language } from '@mui/icons-material';
+
 export const data = {
   'profile__image': '/images/about.jpg',
   socialLinks: [
-    {
-      label: 'github',
-      icon: 'fab fa-github',
-      url: 'http://github.com/ShivkumarSuthar',
-      group: 'group-1'
-    },
-    {
-      label: 'linkedin',
-      icon: 'fab fa-linkedin-in',
-      url: 'https://www.linkedin.com/in/shivkumar-suthar',
-      group: 'group-2'
-    },
-    {
-      label: 'leet code',
-      icon: 'fas fa-code',
-      url: 'https://leetcode.com/yourprofile',
-      group: 'group-1'
-    },
-    {
-      label: 'facebook',
-      icon: 'fab fa-facebook-f',
-      url: 'https://www.facebook.com/shivkumar.suthar.165',
-      group: 'group-3'
-    },
-    {
-      label: 'instagram',
-      icon: 'fab fa-instagram',
-      url: 'https://instagram.com/yourprofile',
-      group: 'group-3'
-    }
-  ],
+  // Development & Code Platforms
+  {
+    label: 'GitHub',
+    icon: 'GitHub', // MUI icon name
+    url: 'https://github.com/ShivkumarSuthar',
+    group: 'group-1',
+  },
+  {
+    label: 'LeetCode',
+    icon: 'Code',
+    url: 'https://leetcode.com/yourprofile',
+    group: 'group-1',
+  },
+
+  // Professional Links
+  {
+    label: 'LinkedIn',
+    icon: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/shivkumar-suthar',
+    group: 'group-2',
+  },
+  {
+    label: 'Download Resume',
+    icon: 'Description',
+    url: '/files/ShivkumarSuthar_Resume.pdf', 
+    group: 'group-3',
+  },
+
+  // Social Media
+  // {
+  //   label: 'Facebook',
+  //   icon: 'Facebook',
+  //   url: 'https://www.facebook.com/shivkumar.suthar.165',
+  //   group: 'group-2',
+  // },
+  // {
+  //   label: 'Instagram',
+  //   icon: 'Instagram',
+  //   url: 'https://instagram.com/yourprofile',
+  //   group: 'group-2',
+  // },
+],
+
   "skills": {
     "Front-end": [
       "HTML",
