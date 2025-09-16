@@ -265,6 +265,16 @@ export default function LearningMaterials() {
                         Open
                       </Button>
                     </Link>
+                    <Link
+                      href={`/preview/${subject._id}/`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      passHref
+                    >
+                      <Button size="small" variant="contained" color="info">
+                        Preview
+                      </Button>
+                    </Link>
                   </CardActions>
                 </Card>
               </Grid>

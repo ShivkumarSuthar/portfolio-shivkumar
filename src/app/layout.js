@@ -1,24 +1,29 @@
-// app/layout.js
 'use client';
 import './globals.css';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { lightTheme, darkTheme } from '../theme/theme';
+import { darkTheme } from '../theme/theme';
 import Header from '../components/Header';
 import Footer from '@/components/Footer';
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({ children }) {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark] = useState(false);
+  const pathname = usePathname();
+
+  // ✅ Check if current route is preview
+  const isPreviewPage = pathname.startsWith('/preview');
 
   return (
     <html lang="en">
       <body>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
-          <Header/>
+          {/* Show Header/Footer only if NOT preview */}
+          {!isPreviewPage && <Header />}
           {children}
-          <Footer/>
+          {!isPreviewPage && <Footer />}
         </ThemeProvider>
       </body>
     </html>
