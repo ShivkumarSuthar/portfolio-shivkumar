@@ -300,21 +300,20 @@ export default function LearningMaterials() {
                       p: 2,
                       pt: 0,
                       display: "flex",
-                      justifyContent: "space-between",
+                      gap:1,
+                      justifyContent: "start",
                     }}
                   >
                     <Link href={`/learning-materials/${subject._id}`} passHref>
                       <Button
                         size="small"
                         startIcon={<FolderOpenIcon />}
-                        variant="outlined"
+                        variant="contained"
                         sx={{
                           borderRadius: 2,
-                          borderColor: getColor(subject.color),
-                          color: getColor(subject.color),
+                          bgcolor: getColor(subject.color),
                           "&:hover": {
-                            bgcolor: getColor(subject.color),
-                            color: "#fff",
+                            bgcolor: getColor(subject.color, true), // darker shade if your fn supports it
                           },
                         }}
                       >
