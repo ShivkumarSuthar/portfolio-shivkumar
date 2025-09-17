@@ -61,6 +61,7 @@ export default function HeroSection() {
 
             {/* Button */}
             <Button
+              disabled
               variant="contained"
               endIcon={<ArrowForwardIcon />}
               sx={{

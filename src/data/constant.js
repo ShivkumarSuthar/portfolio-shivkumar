@@ -27,7 +27,7 @@ export const data = {
   {
     label: 'Download Resume',
     icon: 'Description',
-    url: '/files/ShivkumarSuthar_Resume.pdf', 
+    url: 'https://drive.google.com/file/d/1N25PUHQt1jd8q0CAzXUrXK5BP7u05gLt/view?usp=sharing', 
     group: 'group-3',
   },
 

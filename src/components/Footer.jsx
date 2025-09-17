@@ -1,17 +1,21 @@
 "use client";
 import React from "react";
-import { Box, Typography, IconButton, Link, Stack } from "@mui/material";
-import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import BrushIcon from "@mui/icons-material/Brush"; // Behance replacement
+import {
+  Box,
+  Typography,
+  IconButton,
+  Link,
+  Stack,
+  Tooltip,
+} from "@mui/material";
+import * as Icons from "@mui/icons-material"; // import all icons dynamically
+import { data } from "@/data/constant";
 
 const Footer = () => {
   return (
     <Box
       component="footer"
       sx={{
-        // bgcolor: "#0d0d0d",
         color: "#fff",
         py: { xs: 4, md: 6 },
         px: { xs: 2, md: 6 },
@@ -62,32 +66,31 @@ const Footer = () => {
           spacing={{ xs: 2, sm: 3 }}
           sx={{ justifyContent: "center" }}
         >
-          {[
-            { icon: <FacebookRoundedIcon />, link: "#" },
-            { icon: <TwitterIcon />, link: "#" },
-            { icon: <LinkedInIcon />, link: "#" },
-            { icon: <BrushIcon />, link: "#" }, // Behance substitute
-          ].map((item, i) => (
-            <IconButton
-              key={i}
-              component="a"
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="social"
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-                bgcolor: "rgba(255,255,255,0.1)",
-                color: "#fff",
-                transition: "0.3s",
-                "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
-              }}
-            >
-              {item.icon}
-            </IconButton>
-          ))}
+          {data.socialLinks.map((item, i) => {
+            const IconComp = Icons[item.icon] || Icons.Link;
+            return (
+              <Tooltip key={i} title={item.label} arrow>
+                <IconButton
+                  component="a"
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.label}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    bgcolor: "rgba(255,255,255,0.1)",
+                    color: "#fff",
+                    transition: "0.3s",
+                    "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
+                  }}
+                >
+                  <IconComp />
+                </IconButton>
+              </Tooltip>
+            );
+          })}
         </Stack>
 
         {/* Phone */}
