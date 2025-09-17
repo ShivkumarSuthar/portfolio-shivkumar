@@ -49,7 +49,7 @@ const Navbar = () => {
   ];
 
   const contactItems = [
-    { name: "Phone", value: "+91-XXXXXXXXXX" },
+    { name: "Phone", value: "+91-6377290604" },
     { name: "Email", value: "shiv.str21@gmail.com" },
   ];
 
