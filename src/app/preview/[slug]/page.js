@@ -16,18 +16,41 @@ export default async function LearningMaterialPreview({ params }) {
   if (!material) {
     return (
       <Container sx={{ py: 5 }}>
-        <Typography variant="h5" color="error">
+        <Box display="flex" justifyContent="flex-end" mb={2}>
+          <Button
+            component={Link}
+            href="/learning-materials/list"
+            variant="outlined"
+            color="primary"
+            startIcon={<ArrowBackIcon />}
+            sx={{
+              textTransform: "none", // keeps "Back" text normal case
+              borderRadius: 2,
+              px: 2,
+              py: 0.5,
+              fontWeight: 500,
+              "&:hover": {
+                backgroundColor: "primary.main",
+                color: "white",
+              },
+            }}
+          >
+            Back
+          </Button>
+        </Box>
+
+        <Typography
+          component="p"
+          color="error"
+          sx={{
+            fontWeight: 600,
+            fontSize: "clamp(1rem, 2.5vw, 1.5rem)", // responsive scaling
+            textAlign: "center", // optional, makes error stand out
+            mt: 2,
+          }}
+        >
           Material not found
         </Typography>
-        <Link href="/learning-materials/list" passHref>
-          <Button
-            variant="outlined"
-            startIcon={<ArrowBackIcon />}
-            sx={{ mt: 3 }}
-          >
-            Back to List
-          </Button>
-        </Link>
       </Container>
     );
   }
@@ -35,19 +58,46 @@ export default async function LearningMaterialPreview({ params }) {
   return (
     <Container sx={{ py: 5 }}>
       {/* Title + Back button in same row */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h3" gutterBottom>
+      <Box display="flex" justifyContent="flex-end" mb={2}>
+        <Button
+          component={Link}
+          href="/learning-materials/list"
+          variant="outlined"
+          color="primary"
+          startIcon={<ArrowBackIcon />}
+          sx={{
+            textTransform: "none", // keeps "Back" text normal case
+            borderRadius: 2,
+            px: 2,
+            py: 0.5,
+            fontWeight: 500,
+            "&:hover": {
+              backgroundColor: "primary.main",
+              color: "white",
+            },
+          }}
+        >
+          Back
+        </Button>
+      </Box>
+
+      <Box mb={3}>
+        <Typography
+          component="h1"
+          gutterBottom
+          sx={{
+            fontWeight: 600,
+            fontSize: "clamp(1.4rem, 4vw, 2rem)", // scales between mobile & desktop
+            lineHeight: 1.3,
+            wordBreak: "break-word",
+          }}
+        >
           {material.title}
         </Typography>
-        <Link href="/learning-materials/list" passHref>
-          <Button variant="outlined" startIcon={<ArrowBackIcon />}>
-            Back
-          </Button>
-        </Link>
       </Box>
 
       {/* Content */}
-      <Box mt={3}>
+      <Box mt={3} className="preview-content">
         {material.content ? (
           <Typography
             variant="body1"

@@ -142,24 +142,16 @@ body {
 
 
 /* edtior css start here */
-.ProseMirror p.is-editor-empty::before {
-  content: attr(data-placeholder);
-  color: #888;
-  /* faded grey */
-  pointer-events: none;
-  height: 0;
-  float: left;
-}
-
-/* Base text */
+/* ================== BASE ================== */
 .ProseMirror {
   font-family: Consolas, "Courier New", monospace !important;
   font-size: 1rem;
   line-height: 1.6;
   color: #f5f5f5;
+  word-wrap: break-word; /* prevent overflow on small screens */
 }
 
-/* ========== HEADINGS ========== */
+/* ================== HEADINGS ================== */
 .ProseMirror h1,
 .ProseMirror h2,
 .ProseMirror h3 {
@@ -175,7 +167,6 @@ body {
 .ProseMirror h1 {
   font-size: 1.8rem;
   color: #c084fc;
-  /* purple */
 }
 
 .ProseMirror h2 {
@@ -188,14 +179,14 @@ body {
   color: #ddd6fe;
 }
 
-/* ========== PARAGRAPH ========== */
+/* ================== PARAGRAPH ================== */
 .ProseMirror p {
   margin: 0.6em 0;
   font-size: 1rem;
   line-height: 1.6;
 }
 
-/* Empty paragraph placeholder (handled by Placeholder extension) */
+/* Placeholder */
 .ProseMirror p.is-editor-empty::before {
   content: attr(data-placeholder);
   color: #777;
@@ -204,18 +195,19 @@ body {
   height: 0;
 }
 
-/* ========== INLINE CODE ========== */
+/* ================== INLINE CODE ================== */
 .ProseMirror code {
   background: #2a2a2a;
   color: #fbbf24;
-  /* amber */
   padding: 2px 4px;
   border-radius: 4px;
   font-size: 0.9em;
   font-family: Consolas, "Courier New", monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-/* ========== CODE BLOCK ========== */
+/* ================== CODE BLOCK ================== */
 .ProseMirror pre {
   background: #1f1f1f;
   color: #ddd;
@@ -227,18 +219,16 @@ body {
   font-size: 0.95rem;
 }
 
-/* ========== BLOCKQUOTE ========== */
+/* ================== BLOCKQUOTE ================== */
 .ProseMirror blockquote {
   border-left: 4px solid #6b7280;
-  /* gray-500 */
   color: #9ca3af;
-  /* gray-400 */
   padding-left: 1em;
   margin-left: 0;
   font-style: italic;
 }
 
-/* ========== LISTS ========== */
+/* ================== LISTS ================== */
 .ProseMirror ul,
 .ProseMirror ol {
   margin: 0.5em 0 0.5em 1.5em;
@@ -258,26 +248,24 @@ body {
   margin-right: 0.5em;
 }
 
-/* ========== HR ========== */
+/* ================== HR ================== */
 .ProseMirror hr {
   border: none;
   border-top: 1px dashed #555;
   margin: 1.5em 0;
 }
 
-/* ========== LINKS ========== */
+/* ================== LINKS ================== */
 .ProseMirror a {
   color: #60a5fa;
-  /* blue-400 */
   text-decoration: underline;
 }
 
 .ProseMirror a:hover {
   color: #93c5fd;
-  /* blue-300 */
 }
 
-/* ========== HIGHLIGHT (if using Highlight extension) ========== */
+/* ================== HIGHLIGHT ================== */
 .ProseMirror mark,
 .highlight {
   background-color: #fbbf24;
@@ -286,5 +274,210 @@ body {
   border-radius: 2px;
 }
 
+/* ================== RESPONSIVE ================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .ProseMirror {
+    font-size: 0.95rem;
+  }
+
+  .ProseMirror h1 {
+    font-size: 1.6rem;
+  }
+
+  .ProseMirror h2 {
+    font-size: 1.35rem;
+  }
+
+  .ProseMirror h3 {
+    font-size: 1.15rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .ProseMirror {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .ProseMirror h1 {
+    font-size: 1.4rem;
+  }
+
+  .ProseMirror h2 {
+    font-size: 1.2rem;
+  }
+
+  .ProseMirror h3 {
+    font-size: 1rem;
+  }
+
+  .ProseMirror pre {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra small (phones < 480px) */
+@media (max-width: 480px) {
+  .ProseMirror {
+    font-size: 0.85rem;
+  }
+
+  .ProseMirror h1 {
+    font-size: 1.2rem;
+  }
+
+  .ProseMirror h2 {
+    font-size: 1.05rem;
+  }
+
+  .ProseMirror h3 {
+    font-size: 0.95rem;
+  }
+
+  .ProseMirror pre {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+}
 
 /* editro css end here */
+
+/* ================= PREVIEW CONTENT ================= */
+.preview-content {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #f5f5f5;
+  word-break: break-word;
+}
+
+/* ========== HEADINGS ========== */
+.preview-content h1,
+.preview-content h2,
+.preview-content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.2em;
+}
+
+.preview-content h1 {
+  font-size: clamp(1.4rem, 4vw, 1.8rem); /* responsive scaling */
+  color: #c084fc; /* purple */
+}
+
+.preview-content h2 {
+  font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+  color: #a78bfa;
+}
+
+.preview-content h3 {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: #ddd6fe;
+}
+
+/* ========== PARAGRAPH ========== */
+.preview-content p {
+  margin: 0.6em 0;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  line-height: 1.6;
+}
+
+/* ========== INLINE CODE ========== */
+.preview-content code {
+  background: #2a2a2a;
+  color: #fbbf24; /* amber */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: clamp(0.8rem, 2.3vw, 0.9rem);
+  font-family: Consolas, "Courier New", monospace;
+}
+
+/* ========== CODE BLOCK ========== */
+.preview-content pre {
+  background: #1f1f1f;
+  color: #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 16px 0;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+}
+
+/* ========== BLOCKQUOTE ========== */
+.preview-content blockquote {
+  border-left: 4px solid #6b7280; /* gray-500 */
+  color: #9ca3af; /* gray-400 */
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+}
+
+/* ========== LISTS ========== */
+.preview-content ul,
+.preview-content ol {
+  margin: 0.5em 0 0.5em 1.5em;
+  padding-left: 1em;
+}
+
+.preview-content li {
+  margin-bottom: 0.3em;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+}
+
+/* Task list checkboxes */
+.preview-content .task-list-item {
+  list-style: none;
+}
+
+.preview-content .task-list-item input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* ========== HR ========== */
+.preview-content hr {
+  border: none;
+  border-top: 1px dashed #555;
+  margin: 1.5em 0;
+}
+
+/* ========== LINKS ========== */
+.preview-content a {
+  color: #60a5fa; /* blue-400 */
+  text-decoration: underline;
+}
+
+.preview-content a:hover {
+  color: #93c5fd; /* blue-300 */
+}
+
+/* ========== HIGHLIGHT ========== */
+.preview-content mark,
+.preview-content .highlight {
+  background-color: #fbbf24;
+  color: #000;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+/* ========== MOBILE OPTIMIZATION ========== */
+@media (max-width: 600px) {
+  .preview-content {
+    padding: 0 8px; /* add side padding on small screens */
+  }
+
+  .preview-content pre {
+    padding: 12px;
+    border-radius: 6px;
+  }
+}
+
+/* preview content css end */

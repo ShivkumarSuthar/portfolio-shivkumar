@@ -124,37 +124,41 @@ export default function LearningMaterials() {
   };
 
   return (
-    <Container maxWidth={false} sx={{px: { xs: 2, sm: 3, md: 4, lg: 6 }}}>
+    <Container maxWidth={false} sx={{ px: { xs: 2, sm: 3, md: 4, lg: 6 } }}>
       {/* Search and Filter */}
       <Grid
         container
-        spacing={2}
         alignItems="center"
         justifyContent="space-between"
+        spacing={3}
         sx={{ py: 4 }}
       >
-        <Grid size={{ xs: 12, md: 5 }}>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={5}
-            flexWrap="wrap"
-            gap={2}
-          >
-            <Box>
-              <Typography variant="h4" gutterBottom>
-                Learning Material
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary">
-                Organize your knowledge by subjects and topics
-              </Typography>
-            </Box>
+        {/* Left Section */}
+        <Grid item xs={12} md="auto">
+          <Box>
+            <Typography variant="h4" gutterBottom fontWeight={600}>
+              Learning Material
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              Organize your knowledge by subjects and topics
+            </Typography>
           </Box>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex", gap: 2 }}>
+
+        {/* Right Section */}
+        <Grid
+          item
+          xs={12}
+          md
+          sx={{
+            display: "flex",
+            flexWrap: { xs: "wrap", md: "nowrap" },
+            gap: 2,
+            justifyContent: { xs: "flex-start", md: "flex-end" },
+          }}
+        >
+          {/* Search */}
           <TextField
-            fullWidth
             placeholder="Search learning materials..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -165,9 +169,18 @@ export default function LearningMaterials() {
                 </InputAdornment>
               ),
             }}
-            sx={{ bgcolor: "background.paper" }}
+            sx={{
+              bgcolor: "background.paper",
+              flex: { xs: "1 1 100%", md: "1 1 40%" }, // full width on mobile, 40% on desktop
+            }}
           />
-          <FormControl fullWidth>
+
+          {/* Filter */}
+          <FormControl
+            sx={{
+              flex: { xs: "1 1 100%", md: "0 0 200px" }, // full width mobile, fixed desktop
+            }}
+          >
             <InputLabel>Filter by Color</InputLabel>
             <Select
               value={filter}
@@ -184,17 +197,17 @@ export default function LearningMaterials() {
               ))}
             </Select>
           </FormControl>
-          <Box>
-            <Link href="/learning-materials/add" passHref>
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                sx={{ height: 50 }}
-              >
-                Create New
-              </Button>
-            </Link>
-          </Box>
+
+          {/* Create Button */}
+          <Link href="/learning-materials/add" passHref>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{ whiteSpace: "nowrap", height: 48 }}
+            >
+              Create New
+            </Button>
+          </Link>
         </Grid>
       </Grid>
 
@@ -211,56 +224,99 @@ export default function LearningMaterials() {
         <>
           <Grid container spacing={3}>
             {subjects.map((subject) => (
-              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={subject._id}>
+              <Grid item size={{ xs: 12, md: 6, lg: 4 }} key={subject._id}>
                 <Card
                   sx={{
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    overflow: "hidden",
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                    "&:hover": {
+                      transform: "translateY(-6px)",
+                      boxShadow: 6,
+                    },
                   }}
                 >
+                  {/* Colored Header */}
+                  <Box
+                    sx={{
+                      bgcolor: getColor(subject.color),
+                      height: 6,
+                    }}
+                  />
+
                   <CardContent sx={{ flexGrow: 1 }}>
+                    {/* Icon + Title */}
                     <Box display="flex" alignItems="center" mb={2}>
                       <Box
                         sx={{
                           bgcolor: getColor(subject.color),
-                          width: 48,
-                          height: 48,
-                          borderRadius: 2,
+                          width: 56,
+                          height: 56,
+                          borderRadius: 2.5,
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           color: "#fff",
+                          fontSize: 28,
+                          boxShadow: 2,
                           mr: 2,
                         }}
                       >
-                        <BookIcon />
+                        <BookIcon fontSize="inherit" />
                       </Box>
-                      <Typography variant="h6">
+                      <Typography variant="h6" fontWeight={600}>
                         {subject.title || "Untitled"}
                       </Typography>
                     </Box>
 
-                    <Typography variant="body2" color="text.secondary">
+                    {/* Description */}
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        mb: 2,
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}
+                    >
                       {subject.description || "No description available"}
                     </Typography>
 
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      display="block"
-                      mt={1}
-                    >
+                    {/* Updated */}
+                    <Typography variant="caption" color="text.secondary">
                       Updated {formatDate(subject.updatedAt)}
                     </Typography>
                   </CardContent>
 
-                  <CardActions>
+                  {/* Actions */}
+                  <CardActions
+                    sx={{
+                      p: 2,
+                      pt: 0,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
                     <Link href={`/learning-materials/${subject._id}`} passHref>
                       <Button
                         size="small"
                         startIcon={<FolderOpenIcon />}
                         variant="outlined"
+                        sx={{
+                          borderRadius: 2,
+                          borderColor: getColor(subject.color),
+                          color: getColor(subject.color),
+                          "&:hover": {
+                            bgcolor: getColor(subject.color),
+                            color: "#fff",
+                          },
+                        }}
                       >
                         Open
                       </Button>
@@ -271,7 +327,17 @@ export default function LearningMaterials() {
                       rel="noopener noreferrer"
                       passHref
                     >
-                      <Button size="small" variant="contained" color="info">
+                      <Button
+                        size="small"
+                        variant="contained"
+                        sx={{
+                          borderRadius: 2,
+                          bgcolor: getColor(subject.color),
+                          "&:hover": {
+                            bgcolor: getColor(subject.color, true), // darker shade if your fn supports it
+                          },
+                        }}
+                      >
                         Preview
                       </Button>
                     </Link>
