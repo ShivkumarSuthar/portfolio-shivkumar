@@ -45,7 +45,11 @@ const Navbar = () => {
     { name: "Home", icon: <Home />, href: "/" },
     { name: "About", icon: <Person />, href: "/about" },
     { name: "Projects", icon: <Work />, href: "/projects" },
-    { name: "Learning Material", icon: <School />, href: "/learning-materials/list" },
+    {
+      name: "Learning Material",
+      icon: <School />,
+      href: "/learning-materials/list",
+    },
   ];
 
   const contactItems = [
@@ -100,37 +104,45 @@ const Navbar = () => {
 
       <List sx={{ px: 2, py: 1 }}>
         {menuItems.map((item) => (
-          <Link key={item.name} href={item.href} passHref>
-            <ListItemButton
-              onClick={handleDrawerToggle}
-              sx={{
-                borderRadius: 3,
-                mb: 1,
-                py: 1.5,
-                color: "#e0e0e0",
-                "&:hover": {
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  color: "#fff",
-                  transform: "translateX(6px)",
-                },
-                transition: "all 0.3s ease",
+          <ListItemButton
+            key={item.name}
+            component={Link} // ✅ use Next.js Link
+            href={item.href} // ✅ pass the href
+            onClick={handleDrawerToggle}
+            sx={{
+              borderRadius: 3,
+              mb: 1,
+              py: 1.5,
+              color: "#e0e0e0",
+              textDecoration: "none", // ✅ no underline
+              "&:hover": {
+                backgroundColor: "rgba(255,255,255,0.1)",
+                color: "#fff",
+                transform: "translateX(6px)",
+              },
+              transition: "all 0.3s ease",
+            }}
+          >
+            <ListItemIcon sx={{ color: "inherit", minWidth: 40 }}>
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={item.name}
+              primaryTypographyProps={{
+                fontWeight: 400,
+                fontSize: "1rem",
               }}
-            >
-              <ListItemIcon sx={{ color: "inherit", minWidth: 40 }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.name}
-                primaryTypographyProps={{ fontWeight: 400, fontSize: "1rem" }}
-              />
-            </ListItemButton>
-          </Link>
+            />
+          </ListItemButton>
         ))}
 
         <Divider sx={{ bgcolor: "rgba(255,255,255,0.1)", my: 2 }} />
 
         {contactItems.map((item) => (
-          <ListItemButton key={item.name} sx={{ pl: 2, mb: 0.5, color: "#ccc" }}>
+          <ListItemButton
+            key={item.name}
+            sx={{ pl: 2, mb: 0.5, color: "#ccc" }}
+          >
             <ListItemText
               primary={`${item.name}: ${item.value}`}
               primaryTypographyProps={{ fontSize: "0.9rem" }}
@@ -177,7 +189,13 @@ const Navbar = () => {
             </Typography>
 
             {/* Desktop menu */}
-            <Box sx={{ display: { xs: "none", lg: "flex" }, gap: 1, alignItems: "center" }}>
+            <Box
+              sx={{
+                display: { xs: "none", lg: "flex" },
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
               {menuItems.map((item) => (
                 <Link key={item.name} href={item.href} passHref>
                   <Button
