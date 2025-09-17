@@ -249,7 +249,7 @@ const Navbar = () => {
       </Box>
 
       {/* Spacer */}
-      <Toolbar sx={{ minHeight: { xs: 64, sm: 100 } }} />
+      <Toolbar sx={{ minHeight: { xs: 90, sm: 100 } }} />
     </>
   );
 };
