@@ -25,6 +25,7 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import LoadingCard from "./LoadingCard";
 
 // Utility functions
 const formatDate = (dateString) => {
@@ -214,9 +215,13 @@ export default function LearningMaterials() {
       {/* Results count */}
       {/* Loading */}
       {loading && (
-        <Box display="flex" justifyContent="center" py={10}>
-          <CircularProgress />
-        </Box>
+        <Grid container spacing={3}>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Grid item size={{xs:12, md:6, lg:4}} key={i}>
+              <LoadingCard />
+            </Grid>
+          ))}
+        </Grid>
       )}
 
       {/* List */}
@@ -300,7 +305,7 @@ export default function LearningMaterials() {
                       p: 2,
                       pt: 0,
                       display: "flex",
-                      gap:1,
+                      gap: 1,
                       justifyContent: "start",
                     }}
                   >
