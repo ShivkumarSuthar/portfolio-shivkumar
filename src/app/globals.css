@@ -65,9 +65,6 @@ body {
   border-color: #666;
 }
 
-.main__content__wrapper {
-  padding: clamp(8px, 2vw, 20px) clamp(15px, 5vw, 32px);
-}
 
 /* =====================
    Hero Section

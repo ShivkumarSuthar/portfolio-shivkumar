@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -13,8 +13,6 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
-  useTheme,
-  useMediaQuery,
   Divider,
 } from "@mui/material";
 import {
@@ -23,16 +21,12 @@ import {
   Home,
   Person,
   Work,
-  ContactMail,
   School,
 } from "@mui/icons-material";
 import Link from "next/link";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
@@ -83,7 +77,11 @@ const Navbar = () => {
         </Typography>
         <IconButton
           onClick={handleDrawerToggle}
-          sx={{ color: "#ffffff", p: 1, "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" } }}
+          sx={{
+            color: "#ffffff",
+            p: 1,
+            "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+          }}
         >
           <CloseIcon />
         </IconButton>
@@ -166,52 +164,60 @@ const Navbar = () => {
             Shivkumar Suthar
           </Typography>
 
-          {!isMobile && (
-            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-              {menuItems.map((item) => (
-                <Link key={item.name} href={item.href} passHref>
-                  <Button
-                    startIcon={item.icon}
-                    sx={{
-                      color: "#fff",
-                      textTransform: "none",
-                      fontWeight: 400,
-                      px: 2,
-                      py: 1,
-                      borderRadius: 3,
-                      fontSize: "0.9rem",
-                      minWidth: "auto",
-                      "&:hover": {
-                        backgroundColor: "rgba(255,255,255,0.1)",
-                        transform: "translateY(-1px)",
-                      },
-                      transition: "all 0.3s ease",
-                    }}
-                  >
-                    {item.name}
-                  </Button>
-                </Link>
-              ))}
-            </Box>
-          )}
+          {/* Desktop menu (lg and up) */}
+          <Box sx={{ display: { xs: "none", lg: "flex" }, gap: 1, alignItems: "center" }}>
+            {menuItems.map((item) => (
+              <Link key={item.name} href={item.href} passHref>
+                <Button
+                  startIcon={item.icon}
+                  sx={{
+                    color: "#fff",
+                    textTransform: "none",
+                    fontWeight: 400,
+                    px: 2,
+                    py: 1,
+                    borderRadius: 3,
+                    fontSize: "0.9rem",
+                    minWidth: "auto",
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.1)",
+                      transform: "translateY(-1px)",
+                    },
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  {item.name}
+                </Button>
+              </Link>
+            ))}
+          </Box>
 
-          {isMobile && (
+          {/* Mobile menu button (below lg) */}
+          <Box sx={{ display: { xs: "flex", lg: "none" } }}>
             <IconButton
               onClick={handleDrawerToggle}
               sx={{
                 color: "#fff",
                 p: 1.5,
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.1)", transform: "scale(1.1)" },
+                "&:hover": {
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  transform: "scale(1.1)",
+                },
                 transition: "all 0.2s ease",
               }}
             >
               <MenuIcon fontSize="large" />
             </IconButton>
-          )}
+          </Box>
         </Toolbar>
       </AppBar>
 
-      {isMobile && <MobileDrawer />}
+      {/* Mobile Drawer */}
+      <Box sx={{ display: { xs: "block", lg: "none" } }}>
+        <MobileDrawer />
+      </Box>
+
+      {/* Spacer to avoid content overlap */}
       <Toolbar sx={{ minHeight: { xs: 64, sm: 100 } }} />
     </>
   );

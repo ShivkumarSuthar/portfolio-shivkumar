@@ -48,7 +48,7 @@ function Page() {
       {/* Show Main Content */}
       {/* <Fade in={showContent} timeout={500}> */}
       {/* <Box sx={{ display: showContent ? 'block' : 'none' }}> */}
-      <Box className="main__content__wrapper">
+      <Box className="main__content__wrapper" sx={{px: { xs: 2, sm: 3, md: 4, lg: 6 }}}>
         <HeroSection />
         <SocialSection />
         <ProjectCarousel />
