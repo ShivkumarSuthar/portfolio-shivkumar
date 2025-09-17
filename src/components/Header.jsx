@@ -14,6 +14,8 @@ import {
   ListItemText,
   ListItemIcon,
   Divider,
+  Slide,
+  useScrollTrigger,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -24,6 +26,15 @@ import {
   School,
 } from "@mui/icons-material";
 import Link from "next/link";
+
+function HideOnScroll({ children }) {
+  const trigger = useScrollTrigger();
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -132,92 +143,94 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar
-        position="fixed"
-        elevation={0}
-        sx={{
-          background: "#121212",
-          color: "#fff",
-        }}
-      >
-        <Toolbar
+      <HideOnScroll>
+        <AppBar
+          position="fixed"
+          elevation={0}
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            px: { xs: 2, sm: 3, md: 4, lg: 6 },
-            py: { xs: 1, sm: 1.5 },
-            minHeight: { xs: 64, sm: 100 },
+            background: "#121212",
+            color: "#fff",
           }}
         >
-          <Typography
-            variant="h5"
+          <Toolbar
             sx={{
-              fontWeight: 600,
-              color: "#fff",
-              fontSize: { xs: "1.2rem", sm: "1.4rem", md: "1.6rem" },
-              letterSpacing: "-0.5px",
-              cursor: "pointer",
-              "&:hover": { color: "#f0f0f0", transform: "scale(1.02)" },
-              transition: "all 0.3s ease",
+              display: "flex",
+              justifyContent: "space-between",
+              px: { xs: 2, sm: 3, md: 4, lg: 6 },
+              py: { xs: 1, sm: 1.5 },
+              minHeight: { xs: 64, sm: 100 },
             }}
           >
-            Shivkumar Suthar
-          </Typography>
-
-          {/* Desktop menu (lg and up) */}
-          <Box sx={{ display: { xs: "none", lg: "flex" }, gap: 1, alignItems: "center" }}>
-            {menuItems.map((item) => (
-              <Link key={item.name} href={item.href} passHref>
-                <Button
-                  startIcon={item.icon}
-                  sx={{
-                    color: "#fff",
-                    textTransform: "none",
-                    fontWeight: 400,
-                    px: 2,
-                    py: 1,
-                    borderRadius: 3,
-                    fontSize: "0.9rem",
-                    minWidth: "auto",
-                    "&:hover": {
-                      backgroundColor: "rgba(255,255,255,0.1)",
-                      transform: "translateY(-1px)",
-                    },
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  {item.name}
-                </Button>
-              </Link>
-            ))}
-          </Box>
-
-          {/* Mobile menu button (below lg) */}
-          <Box sx={{ display: { xs: "flex", lg: "none" } }}>
-            <IconButton
-              onClick={handleDrawerToggle}
+            <Typography
+              variant="h5"
               sx={{
+                fontWeight: 600,
                 color: "#fff",
-                p: 1.5,
-                "&:hover": {
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  transform: "scale(1.1)",
-                },
-                transition: "all 0.2s ease",
+                fontSize: { xs: "1.2rem", sm: "1.4rem", md: "1.6rem" },
+                letterSpacing: "-0.5px",
+                cursor: "pointer",
+                "&:hover": { color: "#f0f0f0", transform: "scale(1.02)" },
+                transition: "all 0.3s ease",
               }}
             >
-              <MenuIcon fontSize="large" />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
+              Shivkumar Suthar
+            </Typography>
+
+            {/* Desktop menu */}
+            <Box sx={{ display: { xs: "none", lg: "flex" }, gap: 1, alignItems: "center" }}>
+              {menuItems.map((item) => (
+                <Link key={item.name} href={item.href} passHref>
+                  <Button
+                    startIcon={item.icon}
+                    sx={{
+                      color: "#fff",
+                      textTransform: "none",
+                      fontWeight: 400,
+                      px: 2,
+                      py: 1,
+                      borderRadius: 3,
+                      fontSize: "0.9rem",
+                      minWidth: "auto",
+                      "&:hover": {
+                        backgroundColor: "rgba(255,255,255,0.1)",
+                        transform: "translateY(-1px)",
+                      },
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              ))}
+            </Box>
+
+            {/* Mobile menu button */}
+            <Box sx={{ display: { xs: "flex", lg: "none" } }}>
+              <IconButton
+                onClick={handleDrawerToggle}
+                sx={{
+                  color: "#fff",
+                  p: 1.5,
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                    transform: "scale(1.1)",
+                  },
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <MenuIcon fontSize="large" />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
 
       {/* Mobile Drawer */}
       <Box sx={{ display: { xs: "block", lg: "none" } }}>
         <MobileDrawer />
       </Box>
 
-      {/* Spacer to avoid content overlap */}
+      {/* Spacer */}
       <Toolbar sx={{ minHeight: { xs: 64, sm: 100 } }} />
     </>
   );
