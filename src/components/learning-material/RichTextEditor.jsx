@@ -663,23 +663,21 @@ function EditorInner({ content, onUpdate }) {
       {/* Editor Content */}
       <Box
         sx={{
-          border: "1px solid #333", // outer border only
+          border: "1px solid #333",
           borderRadius: 2,
-          minHeight: 150, 
+          height: "70vh", // ✅ fixed height
           width: "100%",
-          resize: "vertical",
-          overflowY: "scroll",
-          display: "flex",  
+          display: "flex",
           flexDirection: "column",
           background: "#1a1a1a",
           p: 2,
+          overflowY: "auto", // ✅ outer scroll
           "& .ProseMirror": {
-            flex: 1, 
+            flex: 1,
             outline: "none",
             border: "none",
-            minHeight: 0,
-            overflowY: "scroll",
-            height:"100%",
+            height: "100%", // ✅ fill parent
+            overflowY: "auto", // ✅ scroll inside if needed
             caretColor: "#fff",
           },
         }}
