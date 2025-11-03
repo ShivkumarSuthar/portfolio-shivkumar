@@ -23,7 +23,8 @@ export default function ComingSoon() {
           Coming Soon
         </Typography>
         <Typography variant="h6">
-          Our website is under construction. We'll be here soon with something amazing.
+          Our website is under construction. We&apos;ll be here soon with
+          something amazing.
         </Typography>
       </Container>
     </Box>
