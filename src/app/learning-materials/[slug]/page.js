@@ -12,7 +12,7 @@ export default async function LearningMaterialHandler({ params }) {
         <Typography variant="h4" color="error">
           404 - Page Not Found
         </Typography>
-      </Box>
+      </Box> 
     );
   }
 
